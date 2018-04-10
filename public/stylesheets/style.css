@@ -1,8 +1,39 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 0px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #484848;
 }
 
 a {
   color: #00B7FF;
+}
+
+/* Design de lq pqge d accueil */
+#homeBackground {
+  height: 100vh;
+  background-position: center center;
+  background-size: cover;
+  background-image: url(/images/homebackground.jpg);
+}
+
+.loginbackground h2 {
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight:700;
+}
+
+.loginbackground  {
+  background-color: #FFFFFF;
+  padding: 50px;
+  border-radius: 10px;
+}
+
+.loginbackground p {
+  font-weight: 300;
+}
+
+#homeBackground h1 {
+font-weight: bold;
+color: white;
 }

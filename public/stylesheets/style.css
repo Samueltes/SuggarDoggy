@@ -22,5 +22,28 @@ a {
 }
 .brand {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+}
+.brand h1 {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+#header-home {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#slogan {
+text-align: center;
+color: #FFFFFF;
+}
+#slogan h2 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 600;
+}
+#slogan p {
+  font-weight: 300;
 }

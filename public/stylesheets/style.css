@@ -15,6 +15,16 @@ a {
   background-position: center center;
   background-size: cover;
   background-image: url(/images/homebackground.jpg);
+  z-index: 1;
+}
+#homeBackground:after {
+  position: absolute;
+  top: 0;
+  content:"";
+  height:100%;
+  width:100%;
+  background-color: rgba(0,0,0,0.44);
+  z-index: 2;
 }
 
 .logo {
@@ -36,6 +46,7 @@ a {
 }
 
 #slogan {
+margin-top: 30vh;
 text-align: center;
 color: #FFFFFF;
 }
@@ -46,4 +57,19 @@ color: #FFFFFF;
 }
 #slogan p {
   font-weight: 300;
+}
+.login-part a {
+  color: white;
+  font-size: 16px;
+  justify-content: space-between;
+}
+#partner {
+  display: flex-end;
+}
+#homecontent {
+  z-index: 3;
+}
+.btn-SuggarDoggy {
+  background-color: #FB7859;
+  margin-left: 10px;
 }

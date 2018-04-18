@@ -46,7 +46,6 @@ a {
 }
 
 #slogan {
-margin-top: 30vh;
 text-align: center;
 color: #FFFFFF;
 }
@@ -63,13 +62,31 @@ color: #FFFFFF;
   font-size: 16px;
   justify-content: space-between;
 }
+.login-part a:first-of-type {
+margin-right: 10px; 
+}
 #partner {
-  display: flex-end;
+  display: flex;
+  justify-content: flex-end;
+}
+#partner a{
+    color: white;
+    margin-left: 10px;
+}
+#partner a:hover {
+  text-decoration: none;
 }
 #homecontent {
   z-index: 3;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .btn-SuggarDoggy {
   background-color: #FB7859;
-  margin-left: 10px;
+  color: white;
+}
+.btn-SuggarDoggy:hover {
+background-color: #D66953;
 }

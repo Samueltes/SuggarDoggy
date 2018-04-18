@@ -174,3 +174,13 @@ header h1 {
   max-width: 100%;
   border-radius: 10px;
 }
+/* design page repertoire */
+#container-repertory {
+  padding: 0 50px;
+}
+.nameshop {
+  font-weight: 700;
+}
+#container-repertory .specialite-shop {
+  font-weight: 300;
+}

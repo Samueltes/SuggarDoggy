@@ -10,5 +10,9 @@ router.get('/shop', function(req, res, next) {
   res.render('shop');
 });
 
+router.get('/repertoire', function(req, res, next) {
+  res.render('repertoire');
+});
+
 
 module.exports = router;

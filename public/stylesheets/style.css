@@ -87,6 +87,7 @@ margin-right: 10px;
   justify-content: space-between;
 }
 .btn-SuggarDoggy {
+  font-size: 14px;
   background-color: #FB7859;
   color: white;
 }
@@ -103,22 +104,73 @@ header {
 }
 
 header .logo {
+  margin-right: 20px;
   width: 50px;
 }
 
 header h1 {
   margin-bottom: 0px;
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
   text-transform: uppercase;
   color: #FB7859;
 }
 
 .header-page {
+  padding: 50px;
+  font-weight: 300;
   background-color: #FB7859;
   color: #ffffff;
 }
 
-.header-page {
-  padding: 50px;
+.header-page h2 {
+  margin-bottom: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.header-page .specialite-shop {
+  margin-bottom: 25px;
+}
+
+.select-product-part {
+  margin:90px 50px;
+}
+
+.alert-sd {
+  background-color: #f7f6f6;
+}
+
+.product-items {
+  font-weight:700;
+}
+.product-price {
+  text-align: right;
+}
+.add-product {
+  font-size: 15px;
+}
+
+.min-basket-customer {
+  padding: 30px 20px;
+  font-size: 12px;
+}
+.min-basket-customer h3 {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+.min-basket-customer button {
+  margin-top: 30px;
+  width: 100%;
+  font-weight: 700;
+}
+.min-total-basket {
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.pro-img {
+  max-width: 100%;
+  border-radius: 10px;
 }

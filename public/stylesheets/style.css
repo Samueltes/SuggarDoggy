@@ -8,7 +8,10 @@ body {
 a {
   color: #00B7FF;
 }
-
+/*** surcharge de boostrap ***/
+.container-fluid {
+  padding: 0px;
+}
 /* Design de lq pqge d accueil */
 #homeBackground {
   height: 100vh;
@@ -63,7 +66,7 @@ color: #FFFFFF;
   justify-content: space-between;
 }
 .login-part a:first-of-type {
-margin-right: 10px; 
+margin-right: 10px;
 }
 #partner {
   display: flex;
@@ -89,4 +92,33 @@ margin-right: 10px;
 }
 .btn-SuggarDoggy:hover {
 background-color: #D66953;
+}
+
+
+/* Design de la page SHOP */
+header {
+  display: flex;
+  align-items: center;
+  padding: 10px 50px;
+}
+
+header .logo {
+  width: 50px;
+}
+
+header h1 {
+  margin-bottom: 0px;
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #FB7859;
+}
+
+.header-page {
+  background-color: #FB7859;
+  color: #ffffff;
+}
+
+.header-page {
+  padding: 50px;
 }

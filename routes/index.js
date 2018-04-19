@@ -69,6 +69,8 @@ var commProduitsModel = mongoose.model('commandesproduits', commProduitsSchema);
 /********* GESTION DES ROUTER **********/
 /***************************************/
   var shopsData = [];
+  //var productsData = [];
+var panierClient = [];
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -80,7 +82,27 @@ router.get('/repertoire', function(req, res, next) {
 });
 
 router.get('/shop', function(req, res, next) {
-  res.render('shop');
+  produitsModel.find(
+    { shopsId: '5ad8938761fd9e070ca5c400' }, // ATTENTION PENSEZ À CHANGER L'ID QUAND LA PAGE REPETOIRE SERA FINI
+  function(err, products){
+    //console.log(products);
+    res.render('shop', { productList: products, panierClient: panierClient } );
+  });
+});
+
+router.get('/add-shop-product', function(req, res, next){
+  produitsModel.find(
+    { _id: req.query.id },
+    function( err, product ){
+      panierClient.push({
+        nom: product[0].nom,
+        prix: product[0].prix,
+        nombre: product[0].nombre
+      });
+      console.log(panierClient);
+      res.redirect('/shop');
+    }
+  )
 });
 
 router.get('/basket', function(req, res, next) {

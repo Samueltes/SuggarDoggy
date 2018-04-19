@@ -43,35 +43,21 @@
                 <div class="col-8">
                   <div class="product-list">
 
+                    <% for(let i = 0; i < productList.length; i++){ %>
                     <div class="market-list">
                       <div class="product-items alert alert-sd">
                         <div class="row">
-                          <div class="col-9 product-name">5 x Choux à la créme</div>
-                          <div class="col-2 product-price">2,50 €</div>
-                          <div class="col-1 add-product"><i class="fas fa-plus-circle"></i></div>
+                          <div class="col-9 product-name"><%= productList[i].nombre %> x <%= productList[i].nom %></div>
+                          <div class="col-2 product-price"><%= productList[i].prix.toFixed(2) %> €</div>
+                          <div class="col-1 add-product">
+                            <a href="/add-shop-product?id=<%= productList[i]._id %>"><i class="fas fa-plus-circle"></i></a>
+                          </div>
                         </div>
                       </div>
                     </div>
-
-                    <div class="market-list">
-                      <div class="product-items alert alert-sd">
-                        <div class="row">
-                          <div class="col-9 product-name">5 x Choux à la créme</div>
-                          <div class="col-2 product-price">2,50 €</div>
-                          <div class="col-1 add-product"><i class="fas fa-plus-circle"></i></div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="market-list">
-                      <div class="product-items alert alert-sd">
-                        <div class="row">
-                          <div class="col-9 product-name">5 x Choux à la créme</div>
-                          <div class="col-2 product-price">2,50 €</div>
-                          <div class="col-1 add-product"><i class="fas fa-plus-circle"></i></div>
-                        </div>
-                      </div>
-                    </div>
+                    <%
+                    }
+                    %>
 
                   </div>
                 </div>
@@ -80,14 +66,16 @@
                   <div class="min-basket-customer alert alert-sd">
                       <h3>Votre panier</h3>
 
+                      <%
+                        for(let i = 0; i < panierClient.length; i++){
+                      %>
                       <div class="row min-basket-list">
-                        <div class="col-8">5 x Choux à la créme</div>
-                        <div class="col-4">2,50 €</div>
+                        <div class="col-8"><%= panierClient[i].nombre %> x <%= panierClient[i].nom %></div>
+                        <div class="col-4"><%= panierClient[i].prix.toFixed(2) %> €</div>
                       </div>
-                      <div class="row min-basket-list">
-                        <div class="col-8">3 x Croissaints</div>
-                        <div class="col-4">2,50 €</div>
-                      </div>
+                      <%
+                        }
+                      %>
 
                       <div class="row min-total-basket">
                         <div class="col-8">Total</div>

@@ -19,4 +19,8 @@ router.get('/basket', function(req, res, next) {
 });
 
 
+router.get('/confirmation', function(req, res, next) {
+  res.render('confirmation');
+});
+
 module.exports = router;

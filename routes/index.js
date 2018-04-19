@@ -82,6 +82,10 @@ router.get('/shop', function(req, res, next) {
   res.render('shop');
 });
 
+
+
+
+
 router.get('/basket', function(req, res, next) {
   res.render('basket');
 });

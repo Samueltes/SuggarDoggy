@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
   </head>
+
   <body>
 
     <div class="container-fluid">
@@ -19,20 +20,14 @@
         </header>
 
 
-        <main id="shop-page">
+        <main id="basket-page">
           <div class="header-page">
             <div class="row">
-
-              <div class="col-8">
-                  <h2>Vidici pâtisserie</h2>
-                  <div class="specialite-shop">Patisserie • Lyon 69001</div>
+              <div class="col-12">
+                  <h2>Panier</h2>
                   <div class="description-shop">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattisam.
+                    Votre commande chez Vidici pâtisserie.
                   </div>
-              </div>
-
-              <div class="offset-1  col-3">
-                <img class="pro-img" src="images/homeBackground.jpg" alt="test">
               </div>
             </div>
           </div>
@@ -41,14 +36,43 @@
             <div class="select-product-part">
               <div class="row">
                 <div class="col-8">
+
+                  <div class="delivery-part">
+                    <h3 class="title-kart"> Livraison </h3>
+                    <form action="" method="post">
+                      <div class="row bs-pd-row-form">
+                        <div class="col-2 bs-pd-col-form">Je suis :</div>
+                        <div class="col-5 bs-pd-col-form">
+                          <input type="text" class="form-control" name="" placeholder="Dupont">
+                        </div>
+                        <div class="col-5 bs-pd-col-form">
+                          <input type="text" class="form-control" name="" placeholder="Jean">
+                        </div>
+                        <div class="col-2 bs-pd-col-form">Je veux être livré :</div>
+                        <div class="col-10 bs-pd-col-form">
+                          <input type="text" class="form-control" name="" placeholder="12 rue de la paix">
+                        </div>
+                        <div class="offset-2 col-5 bs-pd-col-form">
+                          <input type="text" class="form-control" name="" placeholder="69 000">
+                        </div>
+                        <div class="col-5 bs-pd-col-form">
+                          <input type="text" class="form-control" name="" placeholder="LYON">
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+
+
                   <div class="product-list">
+                    <h3 class="title-kart"> Votre panier </h3>
 
                     <div class="market-list">
                       <div class="product-items alert alert-sd">
                         <div class="row">
                           <div class="col-9 product-name">5 x Choux à la créme</div>
                           <div class="col-2 product-price">2,50 €</div>
-                          <div class="col-1 add-product"><i class="fas fa-plus-circle"></i></div>
+                          <div class="col-1 delete-product"><i class="fas fa-minus-circle"></i></div>
                         </div>
                       </div>
                     </div>
@@ -58,7 +82,7 @@
                         <div class="row">
                           <div class="col-9 product-name">5 x Choux à la créme</div>
                           <div class="col-2 product-price">2,50 €</div>
-                          <div class="col-1 add-product"><i class="fas fa-plus-circle"></i></div>
+                          <div class="col-1 delete-product"><i class="fas fa-minus-circle"></i></div>
                         </div>
                       </div>
                     </div>
@@ -68,7 +92,7 @@
                         <div class="row">
                           <div class="col-9 product-name">5 x Choux à la créme</div>
                           <div class="col-2 product-price">2,50 €</div>
-                          <div class="col-1 add-product"><i class="fas fa-plus-circle"></i></div>
+                          <div class="col-1 delete-product"><i class="fas fa-minus-circle"></i></div>
                         </div>
                       </div>
                     </div>
@@ -77,24 +101,15 @@
                 </div>
 
                 <div class="offset-1 col-3">
-                  <div class="min-basket-customer alert alert-sd">
-                      <h3>Votre panier</h3>
+                  <div class="min-description-customer">
+                      <h3>Vidici Pâtisserie</h3>
+                      <h4>Téléphone :</h4>
+                      <p>04 00 00 00 00</p>
 
-                      <div class="row min-basket-list">
-                        <div class="col-8">5 x Choux à la créme</div>
-                        <div class="col-4">2,50 €</div>
-                      </div>
-                      <div class="row min-basket-list">
-                        <div class="col-8">3 x Croissaints</div>
-                        <div class="col-4">2,50 €</div>
-                      </div>
+                      <h4>Adresse :</h4>
+                      <p>12 rue de la paix<br>69 000 LYON</p>
 
-                      <div class="row min-total-basket">
-                        <div class="col-8">Total</div>
-                        <div class="col-4">5,00 €</div>
-                      </div>
-
-                      <a href="/basket"><button type="button" class="btn btn-SuggarDoggy">Finaliser votre commande</button></a>
+                      <div id="map"></div>
                   </div>
                 </div>
 

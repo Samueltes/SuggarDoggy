@@ -14,5 +14,9 @@ router.get('/repertoire', function(req, res, next) {
   res.render('repertoire');
 });
 
+router.get('/basket', function(req, res, next) {
+  res.render('basket');
+});
+
 
 module.exports = router;

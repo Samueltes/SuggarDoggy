@@ -12,9 +12,21 @@ a:hover, a:focus, a:visited {
   text-decoration: none;
   color: #484848;
 }
+h3 {
+  font-size: 26px;
+}
 /*** surcharge de boostrap ***/
 .container-fluid {
   padding: 0px;
+}
+.bs-pd-col-form {
+  padding-right: 5px;
+  padding-left: 5px;
+  margin-bottom: 10px;
+}
+.bs-pd-row-form{
+  padding-left: 10px;
+  padding-right: 10px;
 }
 /* Design de lq pqge d accueil */
 #homeBackground {
@@ -179,7 +191,7 @@ header h1 {
   border-radius: 10px;
 }
 /* design page repertoire */
-.repetoire-page .header-page {
+#repetoire-page .header-page {
   padding-top: 200px;
 }
 #container-repertory {
@@ -202,4 +214,22 @@ header h1 {
 .card-shop {
   padding-right: 40px;
     padding-left: 40px;
+}
+
+/************************************/
+/********** Page BASKET *************/
+/************************************/
+.title-kart {
+  text-transform: uppercase;
+}
+
+#basket-page .product-list {
+  margin-top: 50px;
+}
+
+.min-description-customer h4 {
+  margin-top: 25px;
+  margin-bottom: 0;
+  font-size: 15px;
+  font-weight: 700;
 }

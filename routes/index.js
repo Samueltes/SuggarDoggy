@@ -68,13 +68,14 @@ var commProduitsModel = mongoose.model('commandesproduits', commProduitsSchema);
 /***************************************/
 /********* GESTION DES ROUTER **********/
 /***************************************/
+  var shopsData = [];
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
 router.get('/repertoire', function(req, res, next) {
-  
   res.render('repertoire');
 });
 

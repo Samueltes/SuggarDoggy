@@ -68,8 +68,7 @@ var commProduitsModel = mongoose.model('commandesproduits', commProduitsSchema);
 /***************************************/
 /********* GESTION DES ROUTER **********/
 /***************************************/
-  var shopsData = [];
-  //var productsData = [];
+var shopsData = [];
 var panierClient = [];
 
 /* GET home page. */
@@ -77,15 +76,31 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/repertoire', function(req, res, next) {
-  res.render('repertoire');
+router.post('/repertoire', function(req, res, next)
+{
+      console.log( req.body.specialite + req.body.ville );
+
+      shopsModel.find(
+      { specialite: req.body.specialite, ville: req.body.ville },
+
+           function (error, shops)
+           {
+               console.log(shops);
+               res.render('repertoire', { shops });
+           }
+      )
+
+
+  /*res.render('repertoire'); */
 });
 
+/* page shop */
 router.get('/shop', function(req, res, next) {
   produitsModel.find(
     { shopsId: '5ad8938761fd9e070ca5c400' }, // ATTENTION PENSEZ À CHANGER L'ID QUAND LA PAGE REPETOIRE SERA FINI
   function(err, products){
     //console.log(products);
+    //console.log(panierClient);
     res.render('shop', { productList: products, panierClient: panierClient } );
   });
 });
@@ -97,23 +112,26 @@ router.get('/add-shop-product', function(req, res, next){
       panierClient.push({
         nom: product[0].nom,
         prix: product[0].prix,
-        nombre: product[0].nombre
+        nombre: product[0].nombre,
+        idProduct : product[0].id
       });
-      console.log(panierClient);
+      //console.log(panierClient);
       res.redirect('/shop');
     }
   )
 });
 
+router.get('/delete-shop-product', function(req, res, next){
+  panierClient.splice(req.query.position, 1);
+  res.redirect('/shop');
+});
 
-
-
-
+/* page basket */
 router.get('/basket', function(req, res, next) {
   res.render('basket');
 });
 
-
+/* page confirmation */
 router.get('/confirmation', function(req, res, next) {
   res.render('confirmation');
 });

@@ -35,17 +35,26 @@
             <h2>Consommez ethique et malin !</h2>
             <p>Luttez contre le gaspillage et profitez de patisseries artisanales moins cheres !</p>
 
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Ou donc ?">
-              <input type="text" class="form-control" placeholder="Quoi donc ?">
-              <div class="input-group-append">
-                <button class="btn btn-SuggarDoggy" type="button"><a href="/repertoire">Rechercher</a></button>
-              </div>
-            </div>
+            <form action="/repertoire" method="POST">
+                <select id="ville" name="ville" class="form-control">
+                  <option>Où donc ?</option>
+                  <option>Paris</option>
+                  <option>Lyon</option>
+                </select>
+
+                <select id="specialite" name="specialite" class="form-control">
+                  <option>Quoi donc ?</option>
+                  <option>Boulanger</option>
+                  <option>Pâtissier</option>
+                  <option>Chocolatier</option>
+                </select>
+
+                <div class="input-group-append">
+                  <button class="btn btn-SuggarDoggy">Rechercher</button>
+                </div>
+            </form>
 
           </div>
-
-
 
           <div id="partner">
             <a href="">Devenir partenaire</a>

@@ -67,12 +67,14 @@
                       <h3>Votre panier</h3>
 
                       <%
+                        var total = 0;
                         for(let i = 0; i < panierClient.length; i++){
+                          total = total + panierClient[i].prix;
                       %>
                       <div class="row min-basket-list">
                         <div class="col-7"><%= panierClient[i].nombre %> x <%= panierClient[i].nom %></div>
                         <div class="col-3"><%= panierClient[i].prix.toFixed(2) %> €</div>
-                        <div class="col-2"><i class="fas fa-minus-circle"></i></div>
+                        <div class="col-2"><a href="/delete-shop-product?position=<%= i %>"><i class="fas fa-minus-circle"></i></a></div>
                       </div>
                       <%
                         }
@@ -80,10 +82,10 @@
 
                       <div class="row min-total-basket">
                         <div class="col-8">Total</div>
-                        <div class="col-4">5,00 €</div>
+                        <div class="col-4"><%= total.toFixed(2) %> €</div>
                       </div>
 
-                      <a href="/basket"><button type="button" class="btn btn-SuggarDoggy">Finaliser votre commande</button></a>
+                      <a href="/validation-commande"><button type="button" class="btn btn-SuggarDoggy">Finaliser votre commande</button></a>
                   </div>
                 </div>
 

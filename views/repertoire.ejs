@@ -25,48 +25,22 @@
 
       <div id="container-repertory">
         <div class="row">
+
+          <%
+          for (var i = 0; i < shops.length; i++)
+          {
+          %>
           <div class="col-4 card-shop">
             <a href="/shop">
               <img class="pro-img" src="images/homeBackground.jpg">
-              <div class="nameshop">Yafaa</div>
-              <div class="specialite-shop">Patissier . 69001</div>
+              <div class="nameshop"><%=shops[i].raisonSociale %></div>
+              <div class="specialite-shop"><%=shops[i].specialite %> . <%=shops[i].cp %></div>
             </a>
           </div>
-          <div class="col-4 card-shop">
-            <a href="/shop">
-              <img class="pro-img" src="images/homeBackground.jpg">
-              <div class="nameshop">Yafaa</div>
-              <div class="specialite-shop">Patissier . 69001</div>
-            </a>
-          </div>
-          <div class="col-4 card-shop">
-            <a href="/shop">
-              <img class="pro-img" src="images/homeBackground.jpg">
-              <div class="nameshop">Yafaa</div>
-              <div class="specialite-shop">Patissier . 69001</div>
-            </a>
-          </div>
-          <div class="col-4 card-shop">
-            <a href="/shop">
-              <img class="pro-img" src="images/homeBackground.jpg">
-              <div class="nameshop">Yafaa</div>
-              <div class="specialite-shop">Patissier . 69001</div>
-            </a>
-          </div>
-          <div class="col-4 card-shop">
-            <a href="/shop">
-              <img class="pro-img" src="images/homeBackground.jpg">
-              <div class="nameshop">Yafaa</div>
-              <div class="specialite-shop">Patissier . 69001</div>
-            </a>
-          </div>
-          <div class="col-4 card-shop">
-            <a href="/shop">
-              <img class="pro-img" src="images/homeBackground.jpg">
-              <div class="nameshop">Yafaa</div>
-              <div class="specialite-shop">Patissier . 69001</div>
-            </a>
-          </div>
+          <%
+          }
+          %>
+
         </div>
       </div>
 

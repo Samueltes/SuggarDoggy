@@ -24,10 +24,10 @@
             <div class="row">
 
               <div class="col-8">
-                  <h2>Vidici pâtisserie</h2>
-                  <div class="specialite-shop">Patisserie • Lyon 69001</div>
+                  <h2><%= infosShop[0].raisonSociale %></h2>
+                  <div class="specialite-shop"><%= infosShop[0].specialite %> • <%= infosShop[0].ville+' '+infosShop[0].cp %></div>
                   <div class="description-shop">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis vulputate commodo lectus, ac blandit elit tincidunt id. Sed rhoncus, tortor sed eleifend tristique, tortor mauris molestie elit, et lacinia ipsum quam nec dui. Quisque nec mauris sit amet elit iaculis pretium sit amet quis magna. Aenean velit odio, elementum in tempus ut, vehicula eu diam. Pellentesque rhoncus aliquam mattisam.
+                    <%= infosShop[0].descriptif %>
                   </div>
               </div>
 

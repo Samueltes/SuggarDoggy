@@ -68,63 +68,73 @@ var commProduitsModel = mongoose.model('commandesproduits', commProduitsSchema);
 /***************************************/
 /********* GESTION DES ROUTER **********/
 /***************************************/
-var shopsData = [];
-var panierClient = [];
 
-/* GET home page. */
+
+/* page index */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/repertoire', function(req, res, next)
-{
-      console.log( req.body.specialite + req.body.ville );
 
+/*page repertoire*/
+router.post('/repertoire', function(req, res, next){
+      console.log( req.body.specialite + req.body.ville );
       shopsModel.find(
       { specialite: req.body.specialite, ville: req.body.ville },
-
            function (error, shops)
            {
-               console.log(shops);
+               //console.log(shops);
                res.render('repertoire', { shops });
            }
       )
-
-
-  /*res.render('repertoire'); */
 });
+
+router.get('/shop-selected', function(req, res, next){
+  req.session.idShopSelect = req.query.idShop;
+  res.redirect('/shop');
+});
+
 
 /* page shop */
 router.get('/shop', function(req, res, next) {
-  produitsModel.find(
-    { shopsId: '5ad8938761fd9e070ca5c400' }, // ATTENTION PENSEZ À CHANGER L'ID QUAND LA PAGE REPETOIRE SERA FINI
-  function(err, products){
-    //console.log(products);
-    //console.log(panierClient);
-    res.render('shop', { productList: products, panierClient: panierClient } );
-  });
+
+  if(req.session.panierClient === undefined){
+    req.session.panierClient = [];
+  }
+
+  shopsModel.find(
+    { _id: req.session.idShopSelect },
+    function(err, shops){
+
+      produitsModel.find(
+        { shopsId: req.session.idShopSelect },
+        function(err, products){
+          res.render('shop', { productList: products, panierClient: req.session.panierClient, infosShop : shops } );
+      });
+
+    });
 });
 
 router.get('/add-shop-product', function(req, res, next){
   produitsModel.find(
     { _id: req.query.id },
     function( err, product ){
-      panierClient.push({
+      req.session.panierClient.push({
         nom: product[0].nom,
         prix: product[0].prix,
         nombre: product[0].nombre,
         idProduct : product[0].id
       });
-      //console.log(panierClient);
       res.redirect('/shop');
     }
   )
 });
 
 router.get('/delete-shop-product', function(req, res, next){
-  panierClient.splice(req.query.position, 1);
+  req.session.panierClient.splice(req.query.position, 1);
   res.redirect('/shop');
 });
+
 
 /* page basket */
 router.get('/basket', function(req, res, next) {

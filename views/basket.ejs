@@ -37,30 +37,74 @@
               <div class="row">
                 <div class="col-8">
 
+<% 
+
+console.log( typeof(envoiform) );
+
+if ( typeof(envoiform)=="undefined" )
+{ 
+
+%>  
+                  
                   <div class="delivery-part">
                     <h3 class="title-kart"> Livraison </h3>
-                    <form action="" method="post">
+                    <form action="/livraison" method="post">
                       <div class="row bs-pd-row-form">
                         <div class="col-2 bs-pd-col-form">Je suis :</div>
                         <div class="col-5 bs-pd-col-form">
-                          <input type="text" class="form-control" name="" placeholder="Dupont">
+                          <input type="text" class="form-control" name="livnom" placeholder="Dupont">
                         </div>
                         <div class="col-5 bs-pd-col-form">
-                          <input type="text" class="form-control" name="" placeholder="Jean">
+                          <input type="text" class="form-control" name="livprenom" placeholder="Jean">
                         </div>
                         <div class="col-2 bs-pd-col-form">Je veux être livré :</div>
                         <div class="col-10 bs-pd-col-form">
-                          <input type="text" class="form-control" name="" placeholder="12 rue de la paix">
+                          <input type="text" class="form-control" name="livadresse" placeholder="12 rue de la paix">
                         </div>
                         <div class="offset-2 col-5 bs-pd-col-form">
-                          <input type="text" class="form-control" name="" placeholder="69 000">
+                          <input type="text" class="form-control" name="livcp" placeholder="69 000">
                         </div>
                         <div class="col-5 bs-pd-col-form">
-                          <input type="text" class="form-control" name="" placeholder="LYON">
+                          <input type="text"   class="form-control" name="livville"  placeholder="LYON">
+                          <input type="hidden" class="form-control" name="envoiform" value="1000">                          
                         </div>
+
+
+                        <div class="offset-2 col-10 bs-pd-col-form">
+                          <button class="btn btn-SuggarDoggy">Envoyer</button>                           
+                        </div>
+
+
+
                       </div>
                     </form>
                   </div>
+
+<%
+
+}
+else
+{ 
+
+
+%>
+
+
+
+                  <div class="delivery-part">
+                    <h3 class="title-kart"> Confirmation envoi de la commande </h3>
+                    <%=livnom%> <%=livprenom%> sera livré(e) à l'adresse:<br />
+                    <%=livadresse%><br /> 
+                    <%=livcp%><%=livville%>                                    
+                  </div>
+
+
+<%
+
+}
+
+%>
+
 
 
 
@@ -102,14 +146,14 @@
 
                 <div class="offset-1 col-3">
                   <div class="min-description-customer">
-                      <h3>Vidici Pâtisserie</h3>
+                      <h3><%=shop[0].raisonSociale%></h3>
                       <h4>Téléphone :</h4>
                       <p>04 00 00 00 00</p>
 
                       <h4>Adresse :</h4>
-                      <p>12 rue de la paix<br>69 000 LYON</p>
+                      <p><%=shop[0].adresse%><br><%=shop[0].cp%> <%=shop[0].ville%></p>
 
-                      <div id="map"></div>
+                      <div id="map1"></div>
                   </div>
                 </div>
 
@@ -123,6 +167,59 @@
     </div>
 
 
+<script type="text/javascript">
+var geocoder;
+var map;
+var adresse = "<%=shop[0].adresse%>" + ", " + "<%=shop[0].cp%>" + " " + "<%=shop[0].ville%>"; 
 
+// prévoir keyAPI
+// prévoir style gris
+ 
+
+function initMap() 
+{
+  geocoder = new google.maps.Geocoder();
+  geocoder.geocode( { 'address': adresse}, function(results, status) 
+  {
+    if ( status == google.maps.GeocoderStatus.OK )
+    {
+       //map.setCenter(results[0].geometry.location);
+       var mapOptions = 
+       {
+          zoom      : 14,
+          center    : results[0].geometry.location,
+          mapTypeId : google.maps.MapTypeId.ROADMAP
+       }
+
+       map = new google.maps.Map(document.getElementById('map1'), mapOptions);
+       var marker = new google.maps.Marker(
+       {
+          map: map,
+          position: results[0].geometry.location
+       });
+ 
+    }
+    else
+    {
+       var latlng = new google.maps.LatLng(45.7580539,4.8176094);
+       var mapOptions = 
+       {
+          zoom      : 14,
+          center    : latlng,
+          mapTypeId : google.maps.MapTypeId.ROADMAP
+       }
+       map = new google.maps.Map(document.getElementById('map1'), mapOptions);
+    }
+  });
+
+
+}
+
+</script>
+
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&language=fr&callback=initMap">
+</script>
   </body>
 </html>

@@ -246,3 +246,9 @@ h4 {
 .total-line {
   font-weight: 700;
 }
+
+#map1 
+{
+  height:400px;
+  width:100%;
+}

@@ -290,6 +290,7 @@ h4 {
 }
 .total-line {
   font-weight: 700;
+  margin-bottom: 20px;
 }
 
 #map1
@@ -301,4 +302,20 @@ h4 {
 #btn-payement {
   margin-top: 20px;
   width:100%;
+}
+
+.stripe-button-el {
+  background-image: none;
+  background-color: red;
+}
+
+.stripe-button-el span {
+  background-image: none !important;
+  background: #FB7859 !important;
+  border: 0px !important;
+  text-shadow: none !important;
+}
+.stripe-button-el {
+  padding: 0px !important;
+  width: 100% !important;
 }

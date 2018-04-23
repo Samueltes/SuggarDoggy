@@ -176,6 +176,7 @@ router.get('/shop-selected', function(req, res, next){
 });
 
 
+
 /* page shop */
 router.get('/shop', function(req, res, next) {
 
@@ -191,31 +192,33 @@ router.get('/shop', function(req, res, next) {
         { shopsId: req.session.idShopSelect },
         function(err, products){
 
-          /*** Panier unique pour chaque shop  ***/
+
+          /*** Panier unique pour chaque shop + calcule du total et de la livraison  ***/
           req.session.basketByShop = [];
+          req.session.total = 0;
           for(let i=0; i < req.session.commandeProduits.length; i++){
             if(req.session.idShopSelect === req.session.commandeProduits[i].idShop ){
+
+              // Panier unique
               req.session.basketByShop.push({
                 nom : req.session.commandeProduits[i].nom,
                 nombre : req.session.commandeProduits[i].nombre,
                 prix : req.session.commandeProduits[i].prix
               })
-            }
-          }
-          /****/
 
-          // calcule du total de la commande (stocké dans la session deliveryAndTotalOrder )
-          var total = 0;
-          for(let i=0; i < req.session.commandeProduits.length; i++ ){
-            if(req.session.commandeProduits[i].idShop === req.session.idShopSelect ){
-              total = total + req.session.commandeProduits[i].prix;
+              //Calcule du total & de la livraisn
+              req.session.total = req.session.total + req.session.commandeProduits[i].prix;
+              console.log(req.session.total);
             }
             else {
               total = 0;
             }
           }
+          /****/
+
+          /* total et livraison mise en session*/
           req.session.deliveryAndTotalOrder = {
-            totalCmd : total,
+            totalCmd : req.session.total,
             livraison : 2
           };
 
@@ -260,7 +263,7 @@ router.get('/basket', function(req, res, next)
     { _id: req.session.idShopSelect },
     function (error, shop)
     {
-        console.log("MON MAGASIN" + shop);
+        //console.log("MON MAGASIN" + shop);
         res.render('basket', { shop, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
     }
   )

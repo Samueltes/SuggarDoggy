@@ -88,6 +88,86 @@ router.post('/repertoire', function(req, res, next){
       )
 });
 
+
+router.post('/livraison', function(req, res, next)
+{
+      console.log( req.body.livnom + req.body.livprenom );
+
+      var envoiform    = req.body.envoiform;
+      var livnom       = req.body.livnom;
+      var livprenom    = req.body.livprenom;
+      var livadresse   = req.body.livadresse;
+      var livcp        = req.body.livcp;
+      var livville     = req.body.livville;
+
+      var commandesModelA = new commandesModel (
+      {
+          prixTotal: 4.50,
+          prixLivraison: 2,
+          etatPaiement: "Payé",
+          clientsNom: req.body.livnom,
+          clientsPrenom: req.body.livprenom,
+          clientsAdresse: req.body.livadresse,
+          clientsVille: req.body.livville,
+          clientsCp: req.body.livcp
+
+      }
+      );
+
+      commandesModelA.save(
+          function (error, commande)
+          {
+
+                req.session.idNewCmd = commande._id;
+                console.log("ID DE COMMANDE :" + req.session.idNewCmd)
+
+                shopsModel.find(
+                { _id: req.session.idShopSelect },
+       /*         { _id: "5ad8938761fd9e070ca5c400" },  */
+                  function (error, shop)
+                  {
+
+
+                      console.log("MON MAGASIN" + shop);
+                      res.render('basket', { shop, envoiform, livnom, livprenom, livadresse, livcp, livville, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
+                  }
+                )
+
+
+/*              var commProduitsModel4 = new commProduitsModel (
+                {
+                    produitsNom: "3 x Religieuse",
+                    produitsPrix: 4.50,
+                    nombre: 2,
+                    commandeId: commande._id
+
+                }
+                );
+
+                commProduitsModel4.save(
+                    function (error, comproduit)
+                    {
+                       console.log(comproduit);
+                    }
+                );*/
+
+
+          }
+      );
+
+
+
+
+
+
+});
+
+
+
+
+
+
+
 router.get('/shop-selected', function(req, res, next){
   req.session.idShopSelect = req.query.idShop;
   res.redirect('/shop');
@@ -123,7 +203,7 @@ router.get('/shop', function(req, res, next) {
                 prix : req.session.commandeProduits[i].prix
               })
 
-              //Calcule du total & de la livraisn
+              //Calcule du total & de la livraison
               req.session.total = req.session.total + req.session.commandeProduits[i].prix;
               //console.log(req.session.total);
             }
@@ -286,8 +366,34 @@ router.post('/checkout',function(req, res, next){
 
 
 /* page confirmation */
-router.get('/confirmation', function(req, res, next) {
-  res.render('confirmation');
-});
+router.get('/confirmation', function(req, res, next)
+    {
+
+                shopsModel.find(
+                { _id: req.session.idShopSelect },
+
+                  function (error, shop)
+                  {
+
+                      commandesModel.find(
+                      { _id: req.session.idNewCmd },
+
+                        function (error, commande)
+                        {
+
+                             console.log("page confirmation, la commande :" + commande);
+                             res.render('confirmation', { shop, commande, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
+
+
+                        }
+                      );
+
+                  }
+                );
+
+
+    }
+
+);
 
 module.exports = router;

@@ -67,35 +67,31 @@
                   <div class="product-list">
                     <h3 class="title-kart"> Votre panier </h3>
 
+                    <%
+                    for(let i=0; i < panierClient.length; i++){
+                    %>
                     <div class="market-list">
                       <div class="product-items alert alert-sd">
                         <div class="row">
-                          <div class="col-9 product-name">5 x Choux à la créme</div>
-                          <div class="col-2 product-price">2,50 €</div>
-                          <div class="col-1 delete-product"><i class="fas fa-minus-circle"></i></div>
+                          <div class="col-9 product-name"><%= panierClient[i].nombre %> x <%= panierClient[i].nom %></div>
+                          <div class="col-2 product-price"><%= panierClient[i].prix.toFixed(2) %> €</div>
                         </div>
                       </div>
+                    </div>
+                    <%
+                    }
+                    var total = deliveryAndTotalOrder.totalCmd + deliveryAndTotalOrder.livraison;
+                    %>
+                    <div class="row delivery-line">
+                      <div class="col-9">Livraison</div>
+                      <div class="col-2"><%= deliveryAndTotalOrder.livraison.toFixed(2) %> €</div>
+                    </div>
+                    <div class="row total-line">
+                      <div class="col-9">Total</div>
+                      <div class="col-2"><%= total.toFixed(2) %> €</div>
                     </div>
 
-                    <div class="market-list">
-                      <div class="product-items alert alert-sd">
-                        <div class="row">
-                          <div class="col-9 product-name">5 x Choux à la créme</div>
-                          <div class="col-2 product-price">2,50 €</div>
-                          <div class="col-1 delete-product"><i class="fas fa-minus-circle"></i></div>
-                        </div>
-                      </div>
-                    </div>
 
-                    <div class="market-list">
-                      <div class="product-items alert alert-sd">
-                        <div class="row">
-                          <div class="col-9 product-name">5 x Choux à la créme</div>
-                          <div class="col-2 product-price">2,50 €</div>
-                          <div class="col-1 delete-product"><i class="fas fa-minus-circle"></i></div>
-                        </div>
-                      </div>
-                    </div>
 
                   </div>
                 </div>

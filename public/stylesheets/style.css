@@ -6,7 +6,7 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #484848;
 }
 a:hover, a:focus, a:visited {
   text-decoration: none;
@@ -15,7 +15,18 @@ a:hover, a:focus, a:visited {
 h3 {
   font-size: 26px;
 }
+/* btn au couleur de suggardoddy */
+.btn-SuggarDoggy {
+  font-size: 14px;
+  background-color: #FB7859;
+  color: white;
+}
+.btn-SuggarDoggy:hover {
+background-color: #D66953;
+}
+/*****************************/
 /*** surcharge de boostrap ***/
+/*****************************/
 .container-fluid {
   padding: 0px;
 }
@@ -28,7 +39,10 @@ h3 {
   padding-left: 10px;
   padding-right: 10px;
 }
-/* Design de lq pqge d accueil */
+
+/*******************************/
+/* Design de lq page d accueil */
+/*******************************/
 #homeBackground {
   height: 100vh;
   background-position: center center;
@@ -45,7 +59,19 @@ h3 {
   background-color: rgba(0,0,0,0.44);
   z-index: 2;
 }
-
+#homecontent {
+  z-index: 3;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/*partie logo*/
+#header-home {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .logo {
   width: 100px;
 }
@@ -58,12 +84,17 @@ h3 {
   font-weight: 700;
 }
 
-#header-home {
-  display: flex;
+/*partie login pour client*/
+.login-part a {
+  color: white;
+  font-size: 16px;
   justify-content: space-between;
-  align-items: center;
+}
+.login-part a:first-of-type {
+margin-right: 10px;
 }
 
+/*partie slogan*/
 #slogan {
 text-align: center;
 color: #FFFFFF;
@@ -76,14 +107,35 @@ color: #FFFFFF;
 #slogan p {
   font-weight: 300;
 }
-.login-part a {
-  color: white;
-  font-size: 16px;
-  justify-content: space-between;
+
+/*Barre de recherche*/
+.searchBar-home {
+  display: flex;
 }
-.login-part a:first-of-type {
-margin-right: 10px;
+.searchBar-home .form-control {
+  border-radius: 0px;
 }
+
+.searchBar-home select.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -webkit-border-radius: 0px;
+    background-image: url("https://image.flaticon.com/icons/svg/60/60781.svg");
+    background-position: 99% 50%;
+    background-repeat: no-repeat;
+    background-size: 12px;
+}
+.searchBar-home select.form-control:first-of-type {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.searchBar-home .btn{
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 5px;
+}
+
+/*partie login pour partenaire*/
 #partner {
   display: flex;
   justify-content: flex-end;
@@ -95,24 +147,12 @@ margin-right: 10px;
 #partner a:hover {
   text-decoration: none;
 }
-#homecontent {
-  z-index: 3;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.btn-SuggarDoggy {
-  font-size: 14px;
-  background-color: #FB7859;
-  color: white;
-}
-.btn-SuggarDoggy:hover {
-background-color: #D66953;
-}
 
 
-/* Design de la page SHOP */
+
+/*******************************/
+/*** Design de lq page SHOP ****/
+/*******************************/
 header {
   display: flex;
   align-items: center;
@@ -240,8 +280,13 @@ h4 {
 
 /* page confirmation */
 .delivery-line, .total-line {
+  padding-left: 20px;
+  padding-right: 20px;
   text-align: right;
   font-size: 16px;
+}
+.delivery-line {
+  font-weight: 300;
 }
 .total-line {
   font-weight: 700;

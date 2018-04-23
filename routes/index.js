@@ -98,8 +98,8 @@ router.get('/shop-selected', function(req, res, next){
 /* page shop */
 router.get('/shop', function(req, res, next) {
 
-  if(req.session.panierClient === undefined){
-    req.session.panierClient = [];
+  if(req.session.commandeProduits === undefined){
+    req.session.commandeProduits = [];
   }
 
   shopsModel.find(
@@ -109,7 +109,36 @@ router.get('/shop', function(req, res, next) {
       produitsModel.find(
         { shopsId: req.session.idShopSelect },
         function(err, products){
-          res.render('shop', { productList: products, panierClient: req.session.panierClient, infosShop : shops } );
+
+          /*** Panier unique pour chaque shop  ***/
+          req.session.basketByShop = [];
+          for(let i=0; i < req.session.commandeProduits.length; i++){
+            if(req.session.idShopSelect === req.session.commandeProduits[i].idShop ){
+              req.session.basketByShop.push({
+                nom : req.session.commandeProduits[i].nom,
+                nombre : req.session.commandeProduits[i].nombre,
+                prix : req.session.commandeProduits[i].prix
+              })
+            }
+          }
+          /****/
+
+          // calcule du total de la commande (stocké dans la session deliveryAndTotalOrder )
+          var total = 0;
+          for(let i=0; i < req.session.commandeProduits.length; i++ ){
+            if(req.session.commandeProduits[i].idShop === req.session.idShopSelect ){
+              total = total + req.session.commandeProduits[i].prix;
+            }
+            else {
+              total = 0;
+            }
+          }
+          req.session.deliveryAndTotalOrder = {
+            totalCmd : total,
+            livraison : 2
+          };
+
+          res.render('shop', { productList: products, panierClient: req.session.basketByShop, infosShop : shops, deliveryAndTotalOrder  : req.session.deliveryAndTotalOrder   } );
       });
 
     });
@@ -119,26 +148,32 @@ router.get('/add-shop-product', function(req, res, next){
   produitsModel.find(
     { _id: req.query.id },
     function( err, product ){
-      req.session.panierClient.push({
+
+      req.session.commandeProduits.push({
         nom: product[0].nom,
         prix: product[0].prix,
         nombre: product[0].nombre,
-        idProduct : product[0].id
+        idProduct : product[0].id,
+        idShop : product[0].shopsId
       });
+
       res.redirect('/shop');
     }
   )
 });
 
 router.get('/delete-shop-product', function(req, res, next){
-  req.session.panierClient.splice(req.query.position, 1);
+  req.session.commandeProduits.splice(req.query.position, 1);
   res.redirect('/shop');
 });
 
+router.get('/validation-commande', function(req, res, next){
+  res.redirect('basket');
+});
 
 /* page basket */
 router.get('/basket', function(req, res, next) {
-  res.render('basket');
+  res.render('basket', { panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
 });
 
 /* page confirmation */

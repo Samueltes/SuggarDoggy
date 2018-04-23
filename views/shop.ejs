@@ -73,7 +73,7 @@
                       %>
                       <div class="row min-basket-list">
                         <div class="col-7"><%= panierClient[i].nombre %> x <%= panierClient[i].nom %></div>
-                        <div class="col-3"><%= panierClient[i].prix.toFixed(2) %> €</div>
+                        <div class="col-3"><%= panierClient[i].prix %> €</div>
                         <div class="col-2"><a href="/delete-shop-product?position=<%= i %>"><i class="fas fa-minus-circle"></i></a></div>
                       </div>
                       <%
@@ -82,7 +82,7 @@
 
                       <div class="row min-total-basket">
                         <div class="col-8">Total</div>
-                        <div class="col-4"><%= total.toFixed(2) %> €</div>
+                        <div class="col-4"><%= deliveryAndTotalOrder.totalCmd.toFixed(2) %> €</div>
                       </div>
 
                       <a href="/validation-commande"><button type="button" class="btn btn-SuggarDoggy">Finaliser votre commande</button></a>

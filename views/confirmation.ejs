@@ -26,11 +26,12 @@
               <div class="col-12">
                   <h2>Merci d'avoir commande</h2>
                   <div class="description-shop">
-                    Votre commande a bien ete prise en compte et nous l'avons transmisse a Vidici Patisserie !
+                    Votre commande a bien été prise en compte et nous l'avons transmise à Vidici Pâtisserie !
                   </div>
               </div>
             </div>
           </div>
+
 
 
             <div class="select-product-part">
@@ -39,9 +40,12 @@
 
                   <div class="delivery-part">
                     <h3 class="title-kart"> Livraison </h3>
-                    Vous serez livre le 00/00/2019 vesr 11h
+                    Vous serez livré le 00/00/2018 vers 11h
                     <h4>Adresse de livraison</h4>
-                    <p>12 rue de la paix<br>69 000 Lyon</p>
+
+                    <% console.log("DANS LA PAGE CONF" + commande); %>
+
+                    <p><%=commande[0].clientsAdresse %><br><%=commande[0].clientsCp%> <%=commande[0].clientsVille%></p>
                   </div>
 
 
@@ -49,54 +53,45 @@
                   <div class="product-list">
                     <h3 class="title-kart"> Votre panier </h3>
 
+                    <%
+                    for(let i=0; i < panierClient.length; i++){
+                    %>
                     <div class="market-list">
                       <div class="product-items alert alert-sd">
                         <div class="row">
-                          <div class="col-9 product-name">5 x Choux à la créme</div>
-                          <div class="col-2 product-price">2,50 €</div>
+                          <div class="col-9 product-name"><%= panierClient[i].nombre %> x <%= panierClient[i].nom %></div>
+                          <div class="col-2 product-price"><%= panierClient[i].prix.toFixed(2) %> €</div>
                         </div>
                       </div>
                     </div>
-
-                    <div class="market-list">
-                      <div class="product-items alert alert-sd">
-                        <div class="row">
-                          <div class="col-9 product-name">5 x Choux à la créme</div>
-                          <div class="col-2 product-price">2,50 €</div>
-                        </div>
-                      </div>
+                    <%
+                    }
+                    var total = deliveryAndTotalOrder.totalCmd + deliveryAndTotalOrder.livraison;
+                    %>
+                    <div class="row delivery-line">
+                      <div class="col-9">Livraison</div>
+                      <div class="col-2"><%= deliveryAndTotalOrder.livraison.toFixed(2) %> €</div>
+                    </div>
+                    <div class="row total-line">
+                      <div class="col-9">Total</div>
+                      <div class="col-2"><%= total.toFixed(2) %> €</div>
                     </div>
 
-                    <div class="market-list">
-                      <div class="product-items alert alert-sd">
-                        <div class="row">
-                          <div class="col-9 product-name">5 x Choux à la créme</div>
-                          <div class="col-2 product-price">2,50 €</div>
-                        </div>
-                      </div>
-                    </div>
 
-                  </div>
-                  <div class="row delivery-line">
-                    <div class="col-9">Livraison</div>
-                    <div class="col-2">2,00 Eur</div>
-                  </div>
-                  <div class="row total-line">
-                    <div class="col-9">Total</div>
-                    <div class="col-2">6.50 Eur</div>
+
                   </div>
                 </div>
 
                 <div class="offset-1 col-3">
                   <div class="min-description-customer">
-                      <h3>Vidici Pâtisserie</h3>
+                      <h3><%=shop[0].raisonSociale%></h3>
                       <h4>Téléphone :</h4>
                       <p>04 00 00 00 00</p>
 
                       <h4>Adresse :</h4>
-                      <p>12 rue de la paix<br>69 000 LYON</p>
+                      <p><%=shop[0].adresse%><br><%=shop[0].cp%> <%=shop[0].ville%></p>
 
-                      <div id="map"></div>
+                      <div id="map1"></div>
                   </div>
                 </div>
 
@@ -110,6 +105,59 @@
     </div>
 
 
+<script type="text/javascript">
+var geocoder;
+var map;
+var adresse = "<%=shop[0].adresse%>" + ", " + "<%=shop[0].cp%>" + " " + "<%=shop[0].ville%>"; 
 
+// prévoir keyAPI
+// prévoir style gris
+ 
+
+function initMap() 
+{
+  geocoder = new google.maps.Geocoder();
+  geocoder.geocode( { 'address': adresse}, function(results, status) 
+  {
+    if ( status == google.maps.GeocoderStatus.OK )
+    {
+       //map.setCenter(results[0].geometry.location);
+       var mapOptions = 
+       {
+          zoom      : 14,
+          center    : results[0].geometry.location,
+          mapTypeId : google.maps.MapTypeId.ROADMAP
+       }
+
+       map = new google.maps.Map(document.getElementById('map1'), mapOptions);
+       var marker = new google.maps.Marker(
+       {
+          map: map,
+          position: results[0].geometry.location
+       });
+ 
+    }
+    else
+    {
+       var latlng = new google.maps.LatLng(45.7580539,4.8176094);
+       var mapOptions = 
+       {
+          zoom      : 14,
+          center    : latlng,
+          mapTypeId : google.maps.MapTypeId.ROADMAP
+       }
+       map = new google.maps.Map(document.getElementById('map1'), mapOptions);
+    }
+  });
+
+
+}
+
+</script>
+
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&language=fr?key=AIzaSyA5wwL81VWuapcGISZ6P9SzrLkYrDfSCPE&callback=initMap">
+</script>
   </body>
 </html>

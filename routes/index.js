@@ -121,7 +121,8 @@ router.post('/livraison', function(req, res, next)
           function (error, commande)
           {
 
-
+                req.session.idNewCmd = commande._id;
+                console.log("ID DE COMMANDE :" + req.session.idNewCmd)
 
                 shopsModel.find(
                 { _id: req.session.idShopSelect },
@@ -129,9 +130,9 @@ router.post('/livraison', function(req, res, next)
                   function (error, shop)
                   {
 
-
+                      
                       console.log("MON MAGASIN" + shop);
-                      res.render('basket', { shop, envoiform, livnom, livprenom, livadresse, livcp, livville });
+                      res.render('basket', { shop, envoiform, livnom, livprenom, livadresse, livcp, livville, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });                      
                   }
                 )
 
@@ -206,7 +207,7 @@ router.get('/shop', function(req, res, next) {
                 prix : req.session.commandeProduits[i].prix
               })
 
-              //Calcule du total & de la livraisn
+              //Calcule du total & de la livraison
               req.session.total = req.session.total + req.session.commandeProduits[i].prix;
               console.log(req.session.total);
             }
@@ -273,8 +274,34 @@ router.get('/basket', function(req, res, next)
 
 
 /* page confirmation */
-router.get('/confirmation', function(req, res, next) {
-  res.render('confirmation');
-});
+router.get('/confirmation', function(req, res, next) 
+    {
+
+                shopsModel.find(
+                { _id: req.session.idShopSelect },
+
+                  function (error, shop)
+                  {
+
+                      commandesModel.find(
+                      { _id: req.session.idNewCmd },
+
+                        function (error, commande)
+                        {
+                            
+                             console.log("page confirmation, la commande :" + commande);
+                             res.render('confirmation', { shop, commande, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });                      
+
+                         
+                        }
+                      );
+
+                  }
+                );
+
+
+    }
+
+);
 
 module.exports = router;

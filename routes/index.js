@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-
+var stripe = require('stripe')('sk_test_fnkzrCVoI3J5ICXoOud11G2H');
 
 /***************************************/
 /******* Partie Basse de donnée ********/
@@ -41,7 +41,6 @@ var produitsModel = mongoose.model('produits', produitsSchema);
 
 var commandesSchema = mongoose.Schema(
 {
-
     prixTotal: Number,
     prixLivraison: Number,
     etatPaiement: String,
@@ -78,7 +77,7 @@ router.get('/', function(req, res, next) {
 
 /*page repertoire*/
 router.post('/repertoire', function(req, res, next){
-      console.log( req.body.specialite + req.body.ville );
+      //console.log( req.body.specialite + req.body.ville );
       shopsModel.find(
       { specialite: req.body.specialite, ville: req.body.ville },
            function (error, shops)
@@ -88,8 +87,6 @@ router.post('/repertoire', function(req, res, next){
            }
       )
 });
-
-
 
 
 router.post('/livraison', function(req, res, next)
@@ -130,9 +127,9 @@ router.post('/livraison', function(req, res, next)
                   function (error, shop)
                   {
 
-                      
+
                       console.log("MON MAGASIN" + shop);
-                      res.render('basket', { shop, envoiform, livnom, livprenom, livadresse, livcp, livville, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });                      
+                      res.render('basket', { shop, envoiform, livnom, livprenom, livadresse, livcp, livville, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
                   }
                 )
 
@@ -177,7 +174,6 @@ router.get('/shop-selected', function(req, res, next){
 });
 
 
-
 /* page shop */
 router.get('/shop', function(req, res, next) {
 
@@ -209,7 +205,7 @@ router.get('/shop', function(req, res, next) {
 
               //Calcule du total & de la livraison
               req.session.total = req.session.total + req.session.commandeProduits[i].prix;
-              console.log(req.session.total);
+              //console.log(req.session.total);
             }
             else {
               total = 0;
@@ -220,7 +216,8 @@ router.get('/shop', function(req, res, next) {
           /* total et livraison mise en session*/
           req.session.deliveryAndTotalOrder = {
             totalCmd : req.session.total,
-            livraison : 2
+            livraison : 2,
+            totalCmdDelivery : req.session.total + 2
           };
 
           res.render('shop', { productList: products, panierClient: req.session.basketByShop, infosShop : shops, deliveryAndTotalOrder  : req.session.deliveryAndTotalOrder   } );
@@ -256,9 +253,9 @@ router.get('/validation-commande', function(req, res, next){
   res.redirect('basket');
 });
 
+
 /* page basket */
-router.get('/basket', function(req, res, next)
-{
+router.get('/basket', function(req, res, next){
 
   shopsModel.find(
     { _id: req.session.idShopSelect },
@@ -271,10 +268,105 @@ router.get('/basket', function(req, res, next)
 });
 
 
+router.post('/livraison', function(req, res, next)
+{
+      //console.log( req.body.livnom + req.body.livprenom );
+
+      var envoiform    = req.body.envoiform;
+      var livnom       = req.body.livnom;
+      var livprenom    = req.body.livprenom;
+      var livadresse   = req.body.livadresse;
+      var livcp        = req.body.livcp;
+      var livville     = req.body.livville;
+
+      var commandesModelA = new commandesModel (
+      {
+          prixTotal: 0,
+          prixLivraison: 0,
+          etatPaiement: "Non Payé",
+          clientsNom: req.body.livnom,
+          clientsPrenom: req.body.livprenom,
+          clientsAdresse: req.body.livadresse,
+          clientsVille: req.body.livville,
+          clientsCp: req.body.livcp
+
+      }
+      );
+
+      commandesModelA.save(
+          function (error, commande)
+          {
+            req.session.idNewCmd = commande._id;
+
+                shopsModel.find(
+                { _id: req.session.idShopSelect },
+                  function (error, shop)
+                  {
+                      //console.log("MON MAGASIN" + shop);
+                      res.render('basket', { shop, envoiform, livnom, livprenom, livadresse, livcp, livville, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
+                  })
+          }
+      );
+});
+
+router.post('/checkout',function(req, res, next){
+
+  //Recupération du total de la commande (*100) pour le payement stripe
+  var aPayer = req.session.deliveryAndTotalOrder.totalCmdDelivery*100;
+
+
+  commandesModel.find(
+    { _id: req.session.idNewCmd },
+    function(err, commande){
+      console.log('Commande avant modification : '+ commande);
+    }
+  );
+
+  //console.log(req.session.deliveryAndTotalOrder.totalCmd);
+  //console.log(req.session.deliveryAndTotalOrder.livraison);
+
+  commandesModel.update(
+    { _id: req.session.idNewCmd },
+    {
+      prixTotal: req.session.deliveryAndTotalOrder.totalCmd,
+      prixLivraison: req.session.deliveryAndTotalOrder.livraison
+   },
+   function(error, row ){
+     commandesModel.find(
+       { _id: req.session.idNewCmd },
+       function(err, commande){
+         console.log('Commande aprés modification : ' + commande);
+       }
+     );
+   }
+  );
+
+
+
+
+
+  //Payement sur stripe
+  stripe.customers.create({
+    email: req.body.stripeEmail,
+    source: req.body.stripeToken
+  }).then(function(customer){
+    return stripe.charges.create({
+      amount: aPayer,
+      currency: 'eur',
+      customer: customer.id
+    });
+  }).then(function(charge){
+    console.log('Payement effectué !');
+    res.redirect('/confirmation');
+  }).catch(function(err){
+    console.log(err);
+  })
+});
+
 
 
 /* page confirmation */
-router.get('/confirmation', function(req, res, next) 
+router.get('/confirmation', function(req, res, next)
     {
 
                 shopsModel.find(
@@ -288,11 +380,11 @@ router.get('/confirmation', function(req, res, next)
 
                         function (error, commande)
                         {
-                            
-                             console.log("page confirmation, la commande :" + commande);
-                             res.render('confirmation', { shop, commande, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });                      
 
-                         
+                             console.log("page confirmation, la commande :" + commande);
+                             res.render('confirmation', { shop, commande, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
+
+
                         }
                       );
 

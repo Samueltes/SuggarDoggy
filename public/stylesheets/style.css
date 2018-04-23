@@ -292,8 +292,13 @@ h4 {
   font-weight: 700;
 }
 
-#map1 
+#map1
 {
   height:400px;
+  width:100%;
+}
+
+#btn-payement {
+  margin-top: 20px;
   width:100%;
 }

@@ -41,7 +41,6 @@ var produitsModel = mongoose.model('produits', produitsSchema);
 
 var commandesSchema = mongoose.Schema(
 {
-
     prixTotal: Number,
     prixLivraison: Number,
     etatPaiement: String,
@@ -176,8 +175,7 @@ router.get('/validation-commande', function(req, res, next){
 
 
 /* page basket */
-router.get('/basket', function(req, res, next)
-{
+router.get('/basket', function(req, res, next){
 
   shopsModel.find(
     { _id: req.session.idShopSelect },
@@ -188,6 +186,7 @@ router.get('/basket', function(req, res, next)
     }
   )
 });
+
 
 router.post('/livraison', function(req, res, next)
 {
@@ -202,9 +201,9 @@ router.post('/livraison', function(req, res, next)
 
       var commandesModelA = new commandesModel (
       {
-          prixTotal: 4.50,
-          prixLivraison: 2,
-          etatPaiement: "Payé",
+          prixTotal: 0,
+          prixLivraison: 0,
+          etatPaiement: "Non Payé",
           clientsNom: req.body.livnom,
           clientsPrenom: req.body.livprenom,
           clientsAdresse: req.body.livadresse,
@@ -217,6 +216,8 @@ router.post('/livraison', function(req, res, next)
       commandesModelA.save(
           function (error, commande)
           {
+            req.session.idNewCmd = commande._id;
+
                 shopsModel.find(
                 { _id: req.session.idShopSelect },
                   function (error, shop)
@@ -229,9 +230,42 @@ router.post('/livraison', function(req, res, next)
 });
 
 router.post('/checkout',function(req, res, next){
-  console.log(req.session.deliveryAndTotalOrder.totalCmdDelivery);
+
+  //Recupération du total de la commande (*100) pour le payement stripe
   var aPayer = req.session.deliveryAndTotalOrder.totalCmdDelivery*100;
 
+
+  commandesModel.find(
+    { _id: req.session.idNewCmd },
+    function(err, commande){
+      console.log('Commande avant modification : '+ commande);
+    }
+  );
+
+  //console.log(req.session.deliveryAndTotalOrder.totalCmd);
+  //console.log(req.session.deliveryAndTotalOrder.livraison);
+
+  commandesModel.update(
+    { _id: req.session.idNewCmd },
+    {
+      prixTotal: req.session.deliveryAndTotalOrder.totalCmd,
+      prixLivraison: req.session.deliveryAndTotalOrder.livraison
+   },
+   function(error, row ){
+     commandesModel.find(
+       { _id: req.session.idNewCmd },
+       function(err, commande){
+         console.log('Commande aprés modification : ' + commande);
+       }
+     );
+   }
+  );
+
+
+
+
+
+  //Payement sur stripe
   stripe.customers.create({
     email: req.body.stripeEmail,
     source: req.body.stripeToken

@@ -37,15 +37,15 @@
               <div class="row">
                 <div class="col-8">
 
-<% 
+<%
 
 console.log( typeof(envoiform) );
 
 if ( typeof(envoiform)=="undefined" )
-{ 
+{
 
-%>  
-                  
+%>
+
                   <div class="delivery-part">
                     <h3 class="title-kart"> Livraison </h3>
                     <form action="/livraison" method="post">
@@ -66,12 +66,12 @@ if ( typeof(envoiform)=="undefined" )
                         </div>
                         <div class="col-5 bs-pd-col-form">
                           <input type="text"   class="form-control" name="livville"  placeholder="LYON">
-                          <input type="hidden" class="form-control" name="envoiform" value="1000">                          
+                          <input type="hidden" class="form-control" name="envoiform" value="1000">
                         </div>
 
 
                         <div class="offset-2 col-10 bs-pd-col-form">
-                          <button class="btn btn-SuggarDoggy">Envoyer</button>                           
+                          <button class="btn btn-SuggarDoggy">Envoyer</button>
                         </div>
 
 
@@ -84,7 +84,7 @@ if ( typeof(envoiform)=="undefined" )
 
 }
 else
-{ 
+{
 
 
 %>
@@ -94,8 +94,8 @@ else
                   <div class="delivery-part">
                     <h3 class="title-kart"> Confirmation envoi de la commande </h3>
                     <%=livnom%> <%=livprenom%> sera livré(e) à l'adresse:<br />
-                    <%=livadresse%><br /> 
-                    <%=livcp%><%=livville%>                                    
+                    <%=livadresse%><br />
+                    <%=livcp%><%=livville%>
                   </div>
 
 
@@ -117,7 +117,7 @@ else
                     <div class="market-list">
                       <div class="product-items alert alert-sd">
                         <div class="row">
-                          <div class="col-9 product-name"><%= panierClient[i].nombre %> x <%= panierClient[i].nom %></div>
+                          <div class="col-10 product-name"><%= panierClient[i].nombre %> x <%= panierClient[i].nom %></div>
                           <div class="col-2 product-price"><%= panierClient[i].prix.toFixed(2) %> €</div>
                         </div>
                       </div>
@@ -127,12 +127,29 @@ else
                     var total = deliveryAndTotalOrder.totalCmd + deliveryAndTotalOrder.livraison;
                     %>
                     <div class="row delivery-line">
-                      <div class="col-9">Livraison</div>
+                      <div class="col-10">Livraison</div>
                       <div class="col-2"><%= deliveryAndTotalOrder.livraison.toFixed(2) %> €</div>
                     </div>
                     <div class="row total-line">
-                      <div class="col-9">Total</div>
-                      <div class="col-2"><%= total.toFixed(2) %> €</div>
+                      <div class="col-10">Total</div>
+                      <div class="col-2"><%= deliveryAndTotalOrder.totalCmdDelivery.toFixed(2) %> €</div>
+                    </div>
+                    <div class="row">
+
+                      <div class="offset-8 col-4">
+                          <form action="/checkout" method="POST">
+                            <script
+                              src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                              data-key="pk_test_6Ae1ZS6qKqgB8ERKMSfKJu7d"
+                              data-amount="<%= deliveryAndTotalOrder.totalCmdDelivery*100 %>"
+                              data-name="Suggar Doggy"
+                              data-description="Payez votre commande de chez <%=shop[0].raisonSociale%> "
+                              data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                              data-locale="auto"
+                              data-currency="eur">
+                            </script>
+                          </form>
+                      </div>
                     </div>
 
 
@@ -166,21 +183,21 @@ else
 <script type="text/javascript">
 var geocoder;
 var map;
-var adresse = "<%=shop[0].adresse%>" + ", " + "<%=shop[0].cp%>" + " " + "<%=shop[0].ville%>"; 
+var adresse = "<%=shop[0].adresse%>" + ", " + "<%=shop[0].cp%>" + " " + "<%=shop[0].ville%>";
 
 // prévoir keyAPI
 // prévoir style gris
- 
 
-function initMap() 
+
+function initMap()
 {
   geocoder = new google.maps.Geocoder();
-  geocoder.geocode( { 'address': adresse}, function(results, status) 
+  geocoder.geocode( { 'address': adresse}, function(results, status)
   {
     if ( status == google.maps.GeocoderStatus.OK )
     {
        //map.setCenter(results[0].geometry.location);
-       var mapOptions = 
+       var mapOptions =
        {
           zoom      : 14,
           center    : results[0].geometry.location,
@@ -193,12 +210,12 @@ function initMap()
           map: map,
           position: results[0].geometry.location
        });
- 
+
     }
     else
     {
        var latlng = new google.maps.LatLng(45.7580539,4.8176094);
-       var mapOptions = 
+       var mapOptions =
        {
           zoom      : 14,
           center    : latlng,

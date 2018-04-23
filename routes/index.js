@@ -234,53 +234,53 @@ router.post('/checkout',function(req, res, next){
   //Recupération du total de la commande (*100) pour le payement stripe
   var aPayer = req.session.deliveryAndTotalOrder.totalCmdDelivery*100;
 
-
-  commandesModel.find(
-    { _id: req.session.idNewCmd },
-    function(err, commande){
-      console.log('Commande avant modification : '+ commande);
-    }
-  );
-
-  //console.log(req.session.deliveryAndTotalOrder.totalCmd);
-  //console.log(req.session.deliveryAndTotalOrder.livraison);
-
   commandesModel.update(
     { _id: req.session.idNewCmd },
     {
       prixTotal: req.session.deliveryAndTotalOrder.totalCmd,
-      prixLivraison: req.session.deliveryAndTotalOrder.livraison
+      prixLivraison: req.session.deliveryAndTotalOrder.livraison,
+      etatPaiement: "Payé"
    },
    function(error, row ){
+
+     // Voir les changements dans un console.log
      commandesModel.find(
        { _id: req.session.idNewCmd },
        function(err, commande){
          console.log('Commande aprés modification : ' + commande);
        }
      );
+     //**
    }
   );
 
+  //console.log('ID trouver ou non : '+req.session.idNewCmd);
+  if (req.session.idNewCmd === undefined){
 
+    console.log('oui');
+    res.redirect('/basket');
 
+  } else {
 
+    //Payement sur stripe
+    stripe.customers.create({
+      email: req.body.stripeEmail,
+      source: req.body.stripeToken
+    }).then(function(customer){
+      return stripe.charges.create({
+        amount: aPayer,
+        currency: 'eur',
+        customer: customer.id
+      });
+    }).then(function(charge){
+      console.log('Payement effectué !');
+      res.redirect('/confirmation');
+    }).catch(function(err){
+      console.log(err);
+    })
 
-  //Payement sur stripe
-  stripe.customers.create({
-    email: req.body.stripeEmail,
-    source: req.body.stripeToken
-  }).then(function(customer){
-    return stripe.charges.create({
-      amount: aPayer,
-      currency: 'eur',
-      customer: customer.id
-    });
-  }).then(function(charge){
-    console.log('Payement effectué !');
-    res.redirect('/confirmation');
-  }).catch(function(err){
-    console.log(err);
-  })
+  }
+
 });
 
 

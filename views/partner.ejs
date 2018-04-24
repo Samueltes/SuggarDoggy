@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>Shop</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+  </head>
+  <body>
+
+    <div class="container-fluid">
+        <header>
+            <img src="images/suggar-doggy-logo.png" class="logo" alt="Logo Suggar Doggy">
+            <h1>Suggar Doggy</h1>
+        </header>
+
+
+        <main id="shop-page">
+          <div class="header-page">
+            <div class="row">
+
+              <div class="col-8">
+                  <h2><%= shop[0].raisonSociale %></h2> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalsociete" data-whatever="@mdo">Modifier vos informations</button>
+                  <div class="specialite-shop"><%= shop[0].specialite %> • <%= shop[0].ville+' '+shop[0].cp %></div>
+                  <div class="description-shop">
+                    <%= shop[0].descriptif %>
+                  </div>
+              </div>
+
+              <div class="offset-1  col-3">
+                <img class="pro-img" src="images/homeBackground.jpg" alt="test">
+              </div>
+            </div>
+
+          </div>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalproduit" data-whatever="@mdo">Ajouter un produit</button>
+            <div class="select-product-part">
+              <div class="row">
+                <div class="col-8">
+                  <div class="product-list">
+
+                    <% for(let i = 0; i < productList.length; i++)
+                       {
+                    %>
+                    <div class="market-list">
+                      <div class="product-items alert alert-sd">
+                        <div class="row">
+                          <div class="col-9 product-name"><%= productList[i].nombre %> x <%= productList[i].nom %></div>
+                          <div class="col-2 product-price"><%= productList[i].prix.toFixed(2) %> €</div>
+                          <div class="col-1 add-product">
+                            <a href="/add-shop-product?id=<%= productList[i]._id %>"><i class="fas fa-minus-circle"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <%
+                       }
+                    %>
+
+                  </div>
+                </div>
+
+                <div class="offset-1 col-3">
+                  <div class="min-description-customer">
+
+                      <h3><%=shop[0].raisonSociale%></h3>
+
+
+
+                      <h4>Siret :</h4>
+                      <p>15263589652412</p>
+
+
+                      <h4>Téléphone :</h4>
+                      <p>04 00 00 00 00</p>
+
+                      <h4>Adresse :</h4>
+                      <p><%=shop[0].adresse%><br><%=shop[0].cp%> <%=shop[0].ville%></p>
+
+                      <h4>e_mail :</h4>
+                      <p>monemail@toto.com</p>
+
+                      <a href="/basket"><button type="button" class="btn btn-SuggarDoggy">Finaliser votre commande</button></a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </main>
+
+
+    </div>
+
+
+
+
+<div class="modal fade" id="modalsociete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+             <!-- <h5 class="modal-title" id="exampleModalLabel">VOTRE FICHE PRODUIT</h5> -->
+             <h1 class="titremodal">votre société</h1>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+         </div>
+         <div class="modal-body">
+
+             <form action="/addshop" method="post">
+             <div class="row bs-pd-row-form">
+
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <input type="text" class="form-control" name="shopspecialite" placeholder="Votre spécialité">
+                 </div>
+
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <input type="text" class="form-control" name="shopraisonSociale" placeholder="Votre raison sociale">
+                 </div>
+
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <input type="text" class="form-control" name="shopsiret" placeholder="Votre siret">
+                 </div>
+
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <input type="text" class="form-control" name="shopadresse" placeholder="Votre adresse">
+                 </div>
+
+                 <div class="offset-1 col-5 bs-pd-col-form">
+                     <input type="text" class="form-control" name="shopcp" placeholder="Votre code postal">
+                 </div>
+                 <div class="         col-5 bs-pd-col-form">
+                     <input type="text" class="form-control" name="shopville" placeholder="Votre ville">
+                 </div>
+
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <input type="text" class="form-control" name="shoptel" placeholder="Votre téléphone">
+                 </div>
+
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <input type="text" class="form-control" name="shoptel" placeholder="Votre téléphone">
+                 </div>
+
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <input type="text" class="form-control" name="shopemail" placeholder="Votre e-mail">
+                 </div>
+
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <input type="text" class="form-control" name="shopimage" placeholder="Votre image">
+                 </div>
+
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <textarea type="text" class="form-control" name="shopdescriptif" rows="4">
+                     Votre descriptif
+                     </textarea>
+                 </div>
+
+             </div>
+
+
+         </div>
+         <div class="modal-footer">
+             <div class="row bs-pd-row-form">
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <button type="button" class="btn btn-SuggarDoggy">Ajouter votre société</button>
+                 </div>
+             </div>
+             </form>
+
+         </div>
+      </div>
+   </div>
+</div>
+
+
+
+<div class="modal fade" id="modalproduit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+             <!-- <h5 class="modal-title" id="exampleModalLabel">VOTRE FICHE PRODUIT</h5> -->
+             <h1 class="titremodal">votre fiche produit</h1>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+         </div>
+         <div class="modal-body">
+
+             <form action="/addshop" method="post">
+             <div class="row bs-pd-row-form">
+
+                 <div class="offset-1 col-3 bs-pd-col-form">
+                     <input type="text" class="form-control" name="prodquantite" placeholder="Quantité">
+                 </div>
+                 <div class="         col-7 bs-pd-col-form">
+                     <input type="text" class="form-control" name="prodlibelle" placeholder="Libellé du produit">
+                 </div>
+
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <input type="text" class="form-control" name="prodallergenes" placeholder="Allergène1, allergène2...">
+                 </div>
+                 <div class="offset-1 col-3 bs-pd-col-form">
+                     <input type="text" class="form-control" name="prodprix" placeholder="Prix en €">
+                 </div>
+
+
+             </div>
+
+
+         </div>
+         <div class="modal-footer">
+             <div class="row bs-pd-row-form">
+                 <div class="offset-1 col-10 bs-pd-col-form">
+                     <button type="button" class="btn btn-SuggarDoggy">Ajouter le produit</button>
+                 </div>
+             </div>
+             </form>
+
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+
+
+  </body>
+</html>

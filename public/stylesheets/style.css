@@ -304,6 +304,9 @@ h4 {
   width:100%;
 }
 
+
+
+
 .stripe-button-el {
   background-image: none;
   background-color: red;
@@ -318,4 +321,14 @@ h4 {
 .stripe-button-el {
   padding: 0px !important;
   width: 100% !important;
+}
+
+.titremodal
+{
+  margin: 0px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align:center;
+  text-transform: uppercase;
+  color: #FB7859;
 }

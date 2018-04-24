@@ -302,3 +302,13 @@ h4 {
   margin-top: 20px;
   width:100%;
 }
+
+.titremodal
+{
+  margin: 0px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align:center;
+  text-transform: uppercase;
+  color: #FB7859;
+}

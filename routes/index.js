@@ -18,13 +18,21 @@ mongoose.connect('mongodb://pierrot38:montoto38@ds147469.mlab.com:47469/suggardo
 /****** Création de notre Base de donnée **********/
 var shopsSchema = mongoose.Schema(
 {
+    // siret: Number,
+    // password: Number,
     raisonSociale: String,
     specialite: String,
     adresse: String,
     ville: String,
     cp: Number,
+    // tel: Number,
+    // email: Number,
     image: String,
     descriptif: String
+
+
+
+
 });
 var shopsModel = mongoose.model('shops', shopsSchema);
 
@@ -70,19 +78,19 @@ var commProduitsModel = mongoose.model('commandesproduits', commProduitsSchema);
 
 
 /* page index */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res, next)
+{
   res.render('index', { title: 'Express' });
 });
 
 
 /*page repertoire*/
-router.post('/repertoire', function(req, res, next){
-      //console.log( req.body.specialite + req.body.ville );
+router.post('/repertoire', function(req, res, next)
+{
       shopsModel.find(
       { specialite: req.body.specialite, ville: req.body.ville },
            function (error, shops)
            {
-               //console.log(shops);
                res.render('repertoire', { shops });
            }
       )
@@ -123,12 +131,8 @@ router.post('/livraison', function(req, res, next)
 
                 shopsModel.find(
                 { _id: req.session.idShopSelect },
-       /*         { _id: "5ad8938761fd9e070ca5c400" },  */
                   function (error, shop)
                   {
-
-
-                      console.log("MON MAGASIN" + shop);
                       res.render('basket', { shop, envoiform, livnom, livprenom, livadresse, livcp, livville, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
                   }
                 )
@@ -155,11 +159,6 @@ router.post('/livraison', function(req, res, next)
           }
       );
 
-
-
-
-
-
 });
 
 
@@ -168,22 +167,26 @@ router.post('/livraison', function(req, res, next)
 
 
 
-router.get('/shop-selected', function(req, res, next){
+router.get('/shop-selected', function(req, res, next)
+{
   req.session.idShopSelect = req.query.idShop;
   res.redirect('/shop');
 });
 
 
 /* page shop */
-router.get('/shop', function(req, res, next) {
+router.get('/shop', function(req, res, next)
+{
 
-  if(req.session.commandeProduits === undefined){
+  if(req.session.commandeProduits === undefined)
+  {
     req.session.commandeProduits = [];
   }
 
   shopsModel.find(
     { _id: req.session.idShopSelect },
-    function(err, shops){
+    function(err, shops)
+    {
 
       produitsModel.find(
         { shopsId: req.session.idShopSelect },
@@ -193,8 +196,10 @@ router.get('/shop', function(req, res, next) {
           /*** Panier unique pour chaque shop + calcule du total et de la livraison  ***/
           req.session.basketByShop = [];
           req.session.total = 0;
-          for(let i=0; i < req.session.commandeProduits.length; i++){
-            if(req.session.idShopSelect === req.session.commandeProduits[i].idShop ){
+          for(let i=0; i < req.session.commandeProduits.length; i++)
+          {
+            if(req.session.idShopSelect === req.session.commandeProduits[i].idShop )
+            {
 
               // Panier unique
               req.session.basketByShop.push({
@@ -207,14 +212,16 @@ router.get('/shop', function(req, res, next) {
               req.session.total = req.session.total + req.session.commandeProduits[i].prix;
               //console.log(req.session.total);
             }
-            else {
+            else
+            {
               total = 0;
             }
           }
           /****/
 
           /* total et livraison mise en session*/
-          req.session.deliveryAndTotalOrder = {
+          req.session.deliveryAndTotalOrder =
+          {
             totalCmd : req.session.total,
             livraison : 2,
             totalCmdDelivery : req.session.total + 2
@@ -226,12 +233,15 @@ router.get('/shop', function(req, res, next) {
     });
 });
 
-router.get('/add-shop-product', function(req, res, next){
+router.get('/add-shop-product', function(req, res, next)
+{
   produitsModel.find(
     { _id: req.query.id },
-    function( err, product ){
+    function( err, product )
+    {
 
-      req.session.commandeProduits.push({
+      req.session.commandeProduits.push(
+      {
         nom: product[0].nom,
         prix: product[0].prix,
         nombre: product[0].nombre,
@@ -244,24 +254,26 @@ router.get('/add-shop-product', function(req, res, next){
   )
 });
 
-router.get('/delete-shop-product', function(req, res, next){
+router.get('/delete-shop-product', function(req, res, next)
+{
   req.session.commandeProduits.splice(req.query.position, 1);
   res.redirect('/shop');
 });
 
-router.get('/validation-commande', function(req, res, next){
+router.get('/validation-commande', function(req, res, next)
+{
   res.redirect('basket');
 });
 
 
 /* page basket */
-router.get('/basket', function(req, res, next){
+router.get('/basket', function(req, res, next)
+{
 
   shopsModel.find(
     { _id: req.session.idShopSelect },
     function (error, shop)
     {
-        //console.log("MON MAGASIN" + shop);
         res.render('basket', { shop, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
     }
   )
@@ -270,7 +282,6 @@ router.get('/basket', function(req, res, next){
 
 router.post('/livraison', function(req, res, next)
 {
-      //console.log( req.body.livnom + req.body.livprenom );
 
       var envoiform    = req.body.envoiform;
       var livnom       = req.body.livnom;
@@ -309,7 +320,8 @@ router.post('/livraison', function(req, res, next)
       );
 });
 
-router.post('/checkout',function(req, res, next){
+router.post('/checkout',function(req, res, next)
+{
 
   //Recupération du total de la commande (*100) pour le payement stripe
   var aPayer = req.session.deliveryAndTotalOrder.totalCmdDelivery*100;
@@ -317,7 +329,8 @@ router.post('/checkout',function(req, res, next){
 
   commandesModel.find(
     { _id: req.session.idNewCmd },
-    function(err, commande){
+    function(err, commande)
+    {
       console.log('Commande avant modification : '+ commande);
     }
   );
@@ -326,15 +339,17 @@ router.post('/checkout',function(req, res, next){
   //console.log(req.session.deliveryAndTotalOrder.livraison);
 
   commandesModel.update(
-    { _id: req.session.idNewCmd },
-    {
+  { _id: req.session.idNewCmd },
+   {
       prixTotal: req.session.deliveryAndTotalOrder.totalCmd,
       prixLivraison: req.session.deliveryAndTotalOrder.livraison
    },
-   function(error, row ){
+   function(error, row )
+   {
      commandesModel.find(
        { _id: req.session.idNewCmd },
-       function(err, commande){
+       function(err, commande)
+       {
          console.log('Commande aprés modification : ' + commande);
        }
      );
@@ -346,7 +361,8 @@ router.post('/checkout',function(req, res, next){
 
 
   //Payement sur stripe
-  stripe.customers.create({
+  stripe.customers.create(
+  {
     email: req.body.stripeEmail,
     source: req.body.stripeToken
   }).then(function(customer){
@@ -368,32 +384,66 @@ router.post('/checkout',function(req, res, next){
 /* page confirmation */
 router.get('/confirmation', function(req, res, next)
     {
-
                 shopsModel.find(
                 { _id: req.session.idShopSelect },
 
                   function (error, shop)
                   {
-
                       commandesModel.find(
                       { _id: req.session.idNewCmd },
 
                         function (error, commande)
                         {
-
                              console.log("page confirmation, la commande :" + commande);
                              res.render('confirmation', { shop, commande, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
-
-
                         }
                       );
 
                   }
                 );
-
-
     }
 
 );
+
+
+
+/*page repertoire*/
+router.get('/partner', function(req, res, next)
+{
+      shopsModel.find(
+      { _id: "5adcfb5e10e0c52d1c6522d2" },
+
+        function (error, shop)
+        {
+              produitsModel.find(
+              { shopsId: shop[0]._id },
+                  function (error, productList)
+                  {
+                       res.render('partner', { shop, productList });
+                  }
+              );
+
+        }
+      );
+
+});
+
+
+
+router.get('/essai', function(req, res, next)
+{
+  res.render('essai', {  });
+});
+
+
+router.get('/essai2', function(req, res, next)
+{
+  res.render('essai2', {  });
+});
+
+
+
+
+
 
 module.exports = router;

@@ -59,7 +59,7 @@
                     <div class="market-list">
                       <div class="product-items alert alert-sd">
                         <div class="row">
-                          <div class="col-9 product-name"><%= panierClient[i].nombre %> x <%= panierClient[i].nom %></div>
+                          <div class="col-9 product-name"><%= panierClient[i].nom %></div>
                           <div class="col-2 product-price"><%= panierClient[i].prix.toFixed(2) %> €</div>
                         </div>
                       </div>
@@ -108,21 +108,21 @@
 <script type="text/javascript">
 var geocoder;
 var map;
-var adresse = "<%=shop[0].adresse%>" + ", " + "<%=shop[0].cp%>" + " " + "<%=shop[0].ville%>"; 
+var adresse = "<%=shop[0].adresse%>" + ", " + "<%=shop[0].cp%>" + " " + "<%=shop[0].ville%>";
 
 // prévoir keyAPI
 // prévoir style gris
- 
 
-function initMap() 
+
+function initMap()
 {
   geocoder = new google.maps.Geocoder();
-  geocoder.geocode( { 'address': adresse}, function(results, status) 
+  geocoder.geocode( { 'address': adresse}, function(results, status)
   {
     if ( status == google.maps.GeocoderStatus.OK )
     {
        //map.setCenter(results[0].geometry.location);
-       var mapOptions = 
+       var mapOptions =
        {
           zoom      : 14,
           center    : results[0].geometry.location,
@@ -135,12 +135,12 @@ function initMap()
           map: map,
           position: results[0].geometry.location
        });
- 
+
     }
     else
     {
        var latlng = new google.maps.LatLng(45.7580539,4.8176094);
-       var mapOptions = 
+       var mapOptions =
        {
           zoom      : 14,
           center    : latlng,

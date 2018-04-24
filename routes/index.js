@@ -23,6 +23,7 @@ var shopsSchema = mongoose.Schema(
     adresse: String,
     ville: String,
     cp: Number,
+    email: String,
     image: String,
     descriptif: String
 });

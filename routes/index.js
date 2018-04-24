@@ -423,16 +423,39 @@ router.get('/partner', function(req, res, next)
 });
 
 
-
-router.get('/essai', function(req, res, next)
+router.post('/addProduct', function(req, res, next)
 {
-  res.render('essai', {  });
-});
+      var prodnom       = req.body.prodnom;
+      var prodprix      = req.body.prodprix;
+      var prodallergies = req.body.prodallergies;
+      var prodnombre    = req.body.prodnombre;
+      var prodshopsId   = req.body.prodshopsId;
 
 
-router.get('/essai2', function(req, res, next)
-{
-  res.render('essai2', {  });
+      var produitsModelA = new produitsModel (
+      {
+          nom: prodnom,
+          prix: prodprix,
+          allergies: prodallergies,
+          nombre: prodnombre,
+          shopsId: prodshopsId
+      }
+      );
+
+      produitsModelA.save(
+          function (error, commande)
+          {
+
+              produitsModel.find(
+              { shopsId: prodshopsId },
+                  function (error, productList)
+                  {
+                       res.render('partner', { shop, productList });
+                  }
+              );
+          }
+      );
+
 });
 
 

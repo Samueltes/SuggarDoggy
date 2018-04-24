@@ -133,26 +133,6 @@ router.post('/livraison', function(req, res, next)
                       res.render('basket', { shop, envoiform, livnom, livprenom, livadresse, livcp, livville, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
                   }
                 )
-
-
-/*              var commProduitsModel4 = new commProduitsModel (
-                {
-                    produitsNom: "3 x Religieuse",
-                    produitsPrix: 4.50,
-                    nombre: 2,
-                    commandeId: commande._id
-
-                }
-                );
-
-                commProduitsModel4.save(
-                    function (error, comproduit)
-                    {
-                       console.log(comproduit);
-                    }
-                );*/
-
-
           }
       );
 
@@ -422,20 +402,10 @@ router.get('/partner', function(req, res, next)
 
 });
 
+router.get('/connexion-partner', function(req, res, next){
 
-
-router.get('/essai', function(req, res, next)
-{
-  res.render('essai', {  });
+  res.render('connexion-partner');
 });
-
-
-router.get('/essai2', function(req, res, next)
-{
-  res.render('essai2', {  });
-});
-
-
 
 
 

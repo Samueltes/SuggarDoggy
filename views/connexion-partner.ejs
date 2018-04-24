@@ -13,7 +13,7 @@
 
 <body>
 
-  <div id="homeBackground">
+  <div id="homeBackground page-connexionPartner">
     <div class="container">
       <div class="row">
         <div class="col-12" id="homecontent">
@@ -24,39 +24,16 @@
               <h1>SUGGAR DOGGY</h1>
             </div>
 
-            <div class="login-part">
-              <a href="/login">Se connecter</a>
-              <a href="/signup" class="btn btn-SuggarDoggy">S'inscrire</a>
-            </div>
-          </div>
-
-
           <div id="slogan">
             <h2>Consommez ethique et malin !</h2>
             <p>Luttez contre le gaspillage et profitez de patisseries artisanales moins cheres !</p>
 
-            <form class="searchBar-home" action="/repertoire" method="POST">
-                <select id="ville" name="ville" class="form-control">
-                  <option>Où donc ?</option>
-                  <option>Paris</option>
-                  <option>Lyon</option>
-                </select>
-
-                <select id="specialite" name="specialite" class="form-control">
-                  <option>Quoi donc ?</option>
-                  <option>Boulanger</option>
-                  <option>Pâtissier</option>
-                  <option>Chocolatier</option>
-                </select>
-
-                <button class="btn btn-SuggarDoggy">Rechercher</button>
+            <form class="connexion-partner" action="/connexionForPartner" method="POST">
+                <input type="text" class="form-control" name="email" placeholder="votreemail@gmail.com">
+                <input type="text" class="form-control" name="mdp" placeholder="••••••••••">
+                <button class="btn btn-SuggarDoggy">Se connecter</button>
             </form>
 
-          </div>
-
-          <div id="partner">
-            <a href="">Devenir partenaire</a>
-            <a href="/connexion-partner">Espace partenaires</a>
           </div>
 
         </div>

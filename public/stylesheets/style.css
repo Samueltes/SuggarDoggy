@@ -40,6 +40,17 @@ background-color: #D66953;
   padding-right: 10px;
 }
 
+.modal-header .close {
+  margin: -1rem -1rem -1rem 0;
+}
+.modal-header,
+.modal-footer  {
+  border:0px;
+}
+.modal-body {
+  padding-bottom: 50px;
+}
+
 /*******************************/
 /* Design de lq page d accueil */
 /*******************************/
@@ -305,7 +316,26 @@ h4 {
 }
 
 
-
+/*****************************/
+/**** Design page partner ****/
+/*****************************/
+#partner-page .title {
+  display: flex;
+}
+#partner-page h2 {
+  margin-right: 10px;
+}
+.btn-info-partner {
+  font-size: 10px;
+  background-color: #686868;
+  color: white;
+}
+.btn-info-partner:hover {
+  background-color: #828282;
+}
+.product-list .btn-info-partner {
+  margin-bottom: 20px;
+}
 
 .stripe-button-el {
   background-image: none;
@@ -325,10 +355,19 @@ h4 {
 
 .titremodal
 {
-  margin: 0px;
+  margin: auto;
+  margin-top: 30px;
+  /*margin: 0px;*/
   font-size: 1.5rem;
   font-weight: 700;
   text-align:center;
   text-transform: uppercase;
   color: #FB7859;
+}
+.modal-form button {
+  width:100%;
+}
+
+.btn-addproduct {
+  margin-top: 20px;
 }

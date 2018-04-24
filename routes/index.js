@@ -24,6 +24,7 @@ var shopsSchema = mongoose.Schema(
     ville: String,
     cp: Number,
     email: String,
+    password: String,
     image: String,
     descriptif: String
 });

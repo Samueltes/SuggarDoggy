@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <div id="homeBackground">
+    <div id="page-connexionClients" class="container">
+      <div class="row">
+        <div class="col-12" id="homecontent">
+
+          <div id="header-home">
+            <div class="brand">
+              <img src="images/suggar-doggy-logo.png" class="logo">
+              <h1>SUGGAR DOGGY</h1>
+            </div>
+          </div>
+
+          <div id="slogan">
+            <h2>Connectez-vous</h2>
+            <p>Dans votre espace magasin, pour vendre vous produit en ligne.
+            </br>Merci d'utiliser les identifiants que nous vous avons transmis.</p>
+
+            <% if(mdpPartnerIsFalse === true){ %>
+              <div class="alert alert-secondary" role="alert">
+                Le mail ou/et le mot de passe que vous avez saisi sont incorrects. <br>
+                Réessayez avec des identifiants valides.
+              </div>
+            <% } %>
+
+            <form class="connexion-partner" action="/connexionForCostumer" method="POST">
+                <input type="text" class="form-control bs-pd-col-form" name="email" placeholder="votreemail@gmail.com">
+                <input type="password" class="form-control bs-pd-col-form" name="mdp" placeholder="••••••••••">
+                <button class="btn btn-SuggarDoggy btn-full-width">Se connecter</button>
+            </form>
+
+          </div>
+
+
+          <div></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

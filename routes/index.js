@@ -69,6 +69,20 @@ var commProduitsSchema = mongoose.Schema(
 var commProduitsModel = mongoose.model('commandesproduits', commProduitsSchema);
 
 
+var clientsSchema = mongoose.Schema(
+{
+    email: String,
+    password: String,
+    nom: String,
+    prenom: String,
+    adresse: String,
+    ville: String,
+    cp: Number
+});
+var clientsModel = mongoose.model('clients', clientsSchema);
+
+
+
 /***************************************/
 /********* GESTION DES ROUTER **********/
 /***************************************/
@@ -77,7 +91,7 @@ var commProduitsModel = mongoose.model('commandesproduits', commProduitsSchema);
 /* page index */
 router.get('/', function(req, res, next)
 {
-  res.render('index', { title: 'Express' });
+  res.render('index');
 });
 
 
@@ -96,8 +110,6 @@ router.post('/repertoire', function(req, res, next)
 
 router.post('/livraison', function(req, res, next)
 {
-      console.log( req.body.livnom + req.body.livprenom );
-
       var envoiform    = req.body.envoiform;
       var livnom       = req.body.livnom;
       var livprenom    = req.body.livprenom;
@@ -105,10 +117,11 @@ router.post('/livraison', function(req, res, next)
       var livcp        = req.body.livcp;
       var livville     = req.body.livville;
 
+
       var commandesModelA = new commandesModel (
       {
-          prixTotal: 4.50,
-          prixLivraison: 2,
+          prixTotal: 0,
+          prixLivraison: 0,
           etatPaiement: "Payé",
           clientsNom: req.body.livnom,
           clientsPrenom: req.body.livprenom,
@@ -122,9 +135,7 @@ router.post('/livraison', function(req, res, next)
       commandesModelA.save(
           function (error, commande)
           {
-
                 req.session.idNewCmd = commande._id;
-                console.log("ID DE COMMANDE :" + req.session.idNewCmd)
 
                 shopsModel.find(
                 { _id: req.session.idShopSelect },
@@ -137,11 +148,6 @@ router.post('/livraison', function(req, res, next)
       );
 
 });
-
-
-
-
-
 
 
 router.get('/shop-selected', function(req, res, next)
@@ -210,6 +216,7 @@ router.get('/shop', function(req, res, next)
     });
 });
 
+
 router.get('/add-shop-product', function(req, res, next)
 {
   produitsModel.find(
@@ -230,6 +237,7 @@ router.get('/add-shop-product', function(req, res, next)
     }
   )
 });
+
 
 router.get('/delete-shop-product', function(req, res, next)
 {
@@ -256,46 +264,6 @@ router.get('/basket', function(req, res, next)
   )
 });
 
-
-router.post('/livraison', function(req, res, next)
-{
-
-      var envoiform    = req.body.envoiform;
-      var livnom       = req.body.livnom;
-      var livprenom    = req.body.livprenom;
-      var livadresse   = req.body.livadresse;
-      var livcp        = req.body.livcp;
-      var livville     = req.body.livville;
-
-      var commandesModelA = new commandesModel (
-      {
-          prixTotal: 0,
-          prixLivraison: 0,
-          etatPaiement: "Non Payé",
-          clientsNom: req.body.livnom,
-          clientsPrenom: req.body.livprenom,
-          clientsAdresse: req.body.livadresse,
-          clientsVille: req.body.livville,
-          clientsCp: req.body.livcp
-
-      }
-      );
-
-      commandesModelA.save(
-          function (error, commande)
-          {
-            req.session.idNewCmd = commande._id;
-
-                shopsModel.find(
-                { _id: req.session.idShopSelect },
-                  function (error, shop)
-                  {
-                      //console.log("MON MAGASIN" + shop);
-                      res.render('basket', { shop, envoiform, livnom, livprenom, livadresse, livcp, livville, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
-                  })
-          }
-      );
-});
 
 router.post('/checkout',function(req, res, next)
 {
@@ -385,7 +353,7 @@ router.get('/confirmation', function(req, res, next)
 router.get('/partner', function(req, res, next)
 {
       shopsModel.find(
-      { _id: "5adfdf6e721497210c6cccf3" },
+      { _id: req.session.idShopForPartner },
 
         function (error, shop)
         {
@@ -403,10 +371,83 @@ router.get('/partner', function(req, res, next)
 });
 
 
+router.post('/addProduct', function(req, res, next){
+
+  var newProduit = new produitsModel ({
+    nom: req.body.prodquantite+' x '+req.body.prodnom,
+    prix: req.body.prodprix,
+    allergies: req.body.prodallergenes,
+    nombre: req.body.prodnombre,
+    shopsId: req.session.idShopForPartner
+  });
+  newProduit.save(
+    function(err, produit){
+      console.log(produit);
+      res.redirect('/partner');
+  });
+
+});
+
+
+router.post('/updateShop', function(req, res, next)
+{
+  //console.log("UPDATE !!!!!!!!!!!!!");
+  //console.log("SHOPID: " + req.body.shopid);
+  shopsModel.find(
+      { _id:req.body.shopid },
+      function (err, shop1)
+      {
+        //console.log("SHOP: " + shop1);
+             shopsModel.update(
+             {    _id:req.body.shopid  },
+             {
+                  siret: req.body.shopsiret,
+                  raisonSociale: req.body.shopraisonSociale,
+                  specialite: req.body.shopspecialite,
+                  adresse: req.body.shopadresse,
+                  ville: req.body.shopville,
+                  cp: req.body.shopcp,
+                  email: shop1[0].email,
+                  password: shop1[0].password,
+                  tel: req.body.shoptel,
+                  image: req.body.shopimage,
+                  descriptif: req.body.shopdescriptif
+             },
+             function (err, raw)
+             {
+               res.redirect('/partner');
+             });
+      }
+  );
+});
+
+
+router.get('/deleteProduct', function(req, res, next)
+{
+   produitsModel.remove(
+   { _id:req.query.id },
+   function(err)
+   {
+     res.redirect('/partner')
+   });
+});
+
+router.post('/deconnexionPartner', function(req, res, next){
+  req.session.idShopForPartner = undefined;
+  res.render('index');
+});
+
+
 /* page connexion de partenaire */
 router.get('/connexion-partner', function(req, res, next){
 
-  res.render('connexion-partner', { mdpPartnerIsFalse: req.session.mdpPartnerIsFalse });
+  /* Le shop n'a pas besion de se reconnecter si il ne s'est pas déconnecter avant */
+  if( req.session.idShopForPartner===undefined ) {
+    res.render('connexion-partner', { mdpPartnerIsFalse: req.session.mdpPartnerIsFalse });
+  } else {
+    res.redirect('/partner');
+  }
+
 });
 
 
@@ -432,9 +473,53 @@ router.post('/connexionForPartner', function(req, res, next){
 
     }
   );
-
 });
 
+
+/* Connexion Client */
+router.post('/signupClient', function(req, res, next) {
+
+  clientsModel.find(
+      { email:req.body.email, password:req.body.password },
+      function (err, client)
+      {
+          if(client.length == 0)
+          {
+
+             var clientsModelA = new clientsModel (
+             {
+                email: req.body.email,
+                password: req.body.password,
+                nom: req.body.nom,
+                prenom: req.body.prenom,
+                adresse: req.body.adresse,
+                ville: req.body.ville,
+                cp: req.body.cp
+
+
+             });
+             clientsModelA.save(
+
+                function (error, user)
+                {
+                     res.render('loginClient');
+
+                }
+
+             );
+
+
+          }
+          else
+          {
+                res.render('signupClient');
+          }
+      }
+
+  );
+
+
+});
 
 
 

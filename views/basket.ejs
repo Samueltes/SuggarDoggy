@@ -15,8 +15,10 @@
 
     <div class="container-fluid">
         <header>
-            <img src="images/suggar-doggy-logo.png" class="logo" alt="Logo Suggar Doggy">
-            <h1>Suggar Doggy</h1>
+          <div class="brand">
+            <img src="images/suggar-doggy-logo.png" class="logo">
+            <h1>SUGGAR DOGGY</h1>
+          </div>
         </header>
 
 
@@ -117,7 +119,7 @@ else
                     <div class="market-list">
                       <div class="product-items alert alert-sd">
                         <div class="row">
-                          <div class="col-10 product-name"><%= panierClient[i].nom %></div>
+                          <div class="col-10 product-name"><%= panierClient[i].nombre %> x <%= panierClient[i].nom %></div>
                           <div class="col-2 product-price"><%= panierClient[i].prix.toFixed(2) %> €</div>
                         </div>
                       </div>
@@ -169,12 +171,12 @@ else
                   </div>
                 </div>
 
-              </div>  // class="col-12
-            </div> // class=row
+              </div>
+            </div>
 
-          </div> //header-page
+          </div>
 
-        </main>  // main et header
+        </main>
 
 
     </div>

@@ -47,10 +47,10 @@
                     <div class="market-list">
                       <div class="product-items alert alert-sd">
                         <div class="row">
-                          <div class="col-9 product-name"><%= productList[i].nom %></div>
+                          <div class="col-9 product-name"><%= productList[i].nombre %> lots de <%= productList[i].nom %></div>
                           <div class="col-2 product-price"><%= productList[i].prix.toFixed(2) %> €</div>
                           <div class="col-1 add-product">
-                            <a href="/add-shop-product?id=<%= productList[i]._id %>"><i class="fas fa-plus-circle"></i></a>
+                            <a href="/add-shop-product?id=<%=productList[i]._id%>"><i class="fas fa-plus-circle"></i></a>
                           </div>
                         </div>
                       </div>
@@ -72,7 +72,7 @@
                           total = total + panierClient[i].prix;
                       %>
                       <div class="row min-basket-list">
-                        <div class="col-7"><%= panierClient[i].nom %></div>
+                        <div class="col-7"><%= panierClient[i].nombre %> x <%= panierClient[i].nom %></div>
                         <div class="col-3"><%= panierClient[i].prix %> €</div>
                         <div class="col-2"><a href="/delete-shop-product?position=<%= i %>"><i class="fas fa-minus-circle"></i></a></div>
                       </div>

@@ -19,12 +19,15 @@
         </header>
 
 
-        <main id="shop-page">
+        <main id="partner-page">
           <div class="header-page">
             <div class="row">
 
               <div class="col-8">
-                  <h2><%= shop[0].raisonSociale %></h2> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalsociete" data-whatever="@mdo">Modifier vos informations</button>
+                <div class="title">
+                  <h2><%= shop[0].raisonSociale %></h2>
+                  <button type="button" class="btn btn-info-partner" data-toggle="modal" data-target="#modalsociete" data-whatever="@mdo">Modifier vos informations</button>
+                </div>
                   <div class="specialite-shop"><%= shop[0].specialite %> • <%= shop[0].ville+' '+shop[0].cp %></div>
                   <div class="description-shop">
                     <%= shop[0].descriptif %>
@@ -38,11 +41,12 @@
 
           </div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalproduit" data-whatever="@mdo">Ajouter un produit</button>
             <div class="select-product-part">
               <div class="row">
                 <div class="col-8">
                   <div class="product-list">
+                    <button type="button" class="btn btn-info-partner" data-toggle="modal" data-target="#modalproduit" data-whatever="@mdo">Ajouter un produit</button>
+
 
                     <% for(let i = 0; i < productList.length; i++)
                        {
@@ -50,10 +54,10 @@
                     <div class="market-list">
                       <div class="product-items alert alert-sd">
                         <div class="row">
-                          <div class="col-9 product-name"><%= productList[i].nombre %> x <%= productList[i].nom %></div>
+                          <div class="col-9 product-name"><%= productList[i].nombre %> lots de <%= productList[i].nom %></div>
                           <div class="col-2 product-price"><%= productList[i].prix.toFixed(2) %> €</div>
                           <div class="col-1 add-product">
-                            <a href="/add-shop-product?id=<%= productList[i]._id %>"><i class="fas fa-minus-circle"></i></a>
+                            <a href="/deleteProduct?id=<%=productList[i]._id%>&leshop=<%=shop[0]._id%>"><i class="fas fa-minus-circle"></i></a>
                           </div>
                         </div>
                       </div>
@@ -77,15 +81,14 @@
 
 
                       <h4>Téléphone :</h4>
-                      <p>04 00 00 00 00</p>
+                      <p><%=shop[0].tel%></p>
 
                       <h4>Adresse :</h4>
                       <p><%=shop[0].adresse%><br><%=shop[0].cp%> <%=shop[0].ville%></p>
 
-                      <h4>e_mail :</h4>
-                      <p>monemail@toto.com</p>
+                      <h4>e-mail :</h4>
+                      <p><%=shop[0].email%></p>
 
-                      <a href="/basket"><button type="button" class="btn btn-SuggarDoggy">Finaliser votre commande</button></a>
                   </div>
                 </div>
 
@@ -111,69 +114,59 @@
                  <span aria-hidden="true">&times;</span>
              </button>
          </div>
+         <form action="/updateShop" class="modal-form" method="post">
          <div class="modal-body">
 
-             <form action="/addshop" method="post">
-             <div class="row bs-pd-row-form">
+               <div class="row bs-pd-row-form">
 
-                 <div class="offset-1 col-10 bs-pd-col-form">
-                     <input type="text" class="form-control" name="shopspecialite" placeholder="Votre spécialité">
-                 </div>
+                   <div class="offset-1 col-10 bs-pd-col-form">
+                       <input type="text" class="form-control" name="shopspecialite" placeholder="Votre spécialité" value="<%=shop[0].specialite%>">
+                   </div>
 
-                 <div class="offset-1 col-10 bs-pd-col-form">
-                     <input type="text" class="form-control" name="shopraisonSociale" placeholder="Votre raison sociale">
-                 </div>
+                   <div class="offset-1 col-10 bs-pd-col-form">
+                       <input type="text" class="form-control" name="shopraisonSociale" placeholder="Votre raison sociale" value="<%=shop[0].raisonSociale%>">
+                   </div>
 
-                 <div class="offset-1 col-10 bs-pd-col-form">
-                     <input type="text" class="form-control" name="shopsiret" placeholder="Votre siret">
-                 </div>
+                   <div class="offset-1 col-10 bs-pd-col-form">
+                       <input type="text" class="form-control" name="shopsiret" placeholder="Votre siret" value="<%=shop[0].siret%>">
+                       <input type="hidden"                    name="shopid"                              value="<%=shop[0]._id%>">
+                   </div>
 
-                 <div class="offset-1 col-10 bs-pd-col-form">
-                     <input type="text" class="form-control" name="shopadresse" placeholder="Votre adresse">
-                 </div>
+                   <div class="offset-1 col-10 bs-pd-col-form">
+                       <input type="text" class="form-control" name="shopadresse" placeholder="Votre adresse" value="<%=shop[0].adresse%>">
+                   </div>
 
-                 <div class="offset-1 col-5 bs-pd-col-form">
-                     <input type="text" class="form-control" name="shopcp" placeholder="Votre code postal">
-                 </div>
-                 <div class="         col-5 bs-pd-col-form">
-                     <input type="text" class="form-control" name="shopville" placeholder="Votre ville">
-                 </div>
+                   <div class="offset-1 col-5 bs-pd-col-form">
+                       <input type="text" class="form-control" name="shopcp" placeholder="Votre code postal" value="<%=shop[0].cp%>">
+                   </div>
+                   <div class="         col-5 bs-pd-col-form">
+                       <input type="text" class="form-control" name="shopville" placeholder="Votre ville" value="<%=shop[0].ville%>">
+                   </div>
 
-                 <div class="offset-1 col-10 bs-pd-col-form">
-                     <input type="text" class="form-control" name="shoptel" placeholder="Votre téléphone">
-                 </div>
+                   <div class="offset-1 col-10 bs-pd-col-form">
+                       <input type="text" class="form-control" name="shoptel" placeholder="Votre téléphone" value="<%=shop[0].tel%>">
+                   </div>
 
-                 <div class="offset-1 col-10 bs-pd-col-form">
-                     <input type="text" class="form-control" name="shoptel" placeholder="Votre téléphone">
-                 </div>
+                   <div class="offset-1 col-10 bs-pd-col-form">
+                       <input type="text" class="form-control" name="shopimage" placeholder="Votre image" value="<%=shop[0].image%>">
+                   </div>
 
-                 <div class="offset-1 col-10 bs-pd-col-form">
-                     <input type="text" class="form-control" name="shopemail" placeholder="Votre e-mail">
-                 </div>
-
-                 <div class="offset-1 col-10 bs-pd-col-form">
-                     <input type="text" class="form-control" name="shopimage" placeholder="Votre image">
-                 </div>
-
-                 <div class="offset-1 col-10 bs-pd-col-form">
-                     <textarea type="text" class="form-control" name="shopdescriptif" rows="4">
-                     Votre descriptif
-                     </textarea>
-                 </div>
-
-             </div>
+                   <div class="offset-1 col-10 bs-pd-col-form">
+                       <textarea type="text" class="form-control" name="shopdescriptif" rows="4" placeholder="Votre descriptif"><%=shop[0].descriptif%></textarea>
+                   </div>
+                   <!-- <div class="offset-1 col-10 bs-pd-col-form">
+                       <button class="btn btn-SuggarDoggy">Ajouter votre société</button>
+                   </div> -->
+               </div>
 
 
          </div>
+
          <div class="modal-footer">
-             <div class="row bs-pd-row-form">
-                 <div class="offset-1 col-10 bs-pd-col-form">
-                     <button type="button" class="btn btn-SuggarDoggy">Ajouter votre société</button>
-                 </div>
-             </div>
-             </form>
-
+             <button class="btn btn-SuggarDoggy">Modifier vos coordonnées</button>
          </div>
+         </form>
+
       </div>
    </div>
 </div>
@@ -190,39 +183,47 @@
                  <span aria-hidden="true">&times;</span>
              </button>
          </div>
+         <form action="/addProduct" class="modal-form" method="post">
          <div class="modal-body">
 
-             <form action="/addshop" method="post">
-             <div class="row bs-pd-row-form">
-
-                 <div class="offset-1 col-3 bs-pd-col-form">
-                     <input type="text" class="form-control" name="prodquantite" placeholder="Quantité">
-                 </div>
-                 <div class="         col-7 bs-pd-col-form">
-                     <input type="text" class="form-control" name="prodlibelle" placeholder="Libellé du produit">
-                 </div>
+               <div class="row bs-pd-row-form">
 
                  <div class="offset-1 col-10 bs-pd-col-form">
-                     <input type="text" class="form-control" name="prodallergenes" placeholder="Allergène1, allergène2...">
-                 </div>
-                 <div class="offset-1 col-3 bs-pd-col-form">
-                     <input type="text" class="form-control" name="prodprix" placeholder="Prix en €">
+                   <h4>Définissez votre Lot :</h4>
                  </div>
 
+                   <div class="offset-1 col-3 bs-pd-col-form">
+                       <input type="text" class="form-control" name="prodquantite" placeholder="Quantité">
+                       <input type="hidden"                    name="prodshopsId"  value="<%=shop[0]._id%>">
+                   </div>
+                   <div class="col-7 bs-pd-col-form">
+                       <input type="text" class="form-control" name="prodnom" placeholder="Nom du produit">
+                   </div>
 
-             </div>
+                   <div class="offset-1 col-10 bs-pd-col-form">
+                       <input type="text" class="form-control" name="prodallergenes" placeholder="Allergène1, allergène2...">
+                   </div>
+                   <div class="offset-1 col-3 bs-pd-col-form">
+                       <input type="text" class="form-control" name="prodprix" placeholder="Prix en €">
+                   </div>
 
+                     <div class="offset-1 col-10 bs-pd-col-form">
+                         <h4>Saisissez le nombre de lots :</h4>
+                     </div>
+                      <div class="offset-1 col-10 bs-pd-col-form">
+                         <input type="text" class="form-control" name="prodnombre" placeholder="Nombre de lots">
+                     </div>
 
+                   <!--<div class="offset-1 col-10 bs-pd-col-form">
+                       <button class="btn btn-SuggarDoggy btn-addproduct">Ajouter le produit</button>
+                       </div> -->
+               </div>
          </div>
          <div class="modal-footer">
-             <div class="row bs-pd-row-form">
-                 <div class="offset-1 col-10 bs-pd-col-form">
-                     <button type="button" class="btn btn-SuggarDoggy">Ajouter le produit</button>
-                 </div>
-             </div>
-             </form>
-
+             <button class="btn btn-SuggarDoggy">Ajouter un produit</button>
          </div>
+         </form>
+
       </div>
    </div>
 </div>

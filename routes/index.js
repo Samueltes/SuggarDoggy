@@ -385,7 +385,7 @@ router.get('/confirmation', function(req, res, next)
 router.get('/partner', function(req, res, next)
 {
       shopsModel.find(
-      { _id: "5adcfb5e10e0c52d1c6522d2" },
+      { _id: "5adfdf6e721497210c6cccf3" },
 
         function (error, shop)
         {
@@ -402,9 +402,37 @@ router.get('/partner', function(req, res, next)
 
 });
 
+
+/* page connexion de partenaire */
 router.get('/connexion-partner', function(req, res, next){
 
-  res.render('connexion-partner');
+  res.render('connexion-partner', { mdpPartnerIsFalse: req.session.mdpPartnerIsFalse });
+});
+
+
+router.post('/connexionForPartner', function(req, res, next){
+
+  shopsModel.find(
+    {
+      email: req.body.email,
+      password: req.body.mdp
+    },
+    function(err, shops){
+
+      /* Gére deux réponses différents si les identifiants sont bons ou non */
+      if (shops[0]){
+        //console.log('Identifiant OK, je me connecte.');
+        req.session.idShopForPartner = shops[0]._id;
+        res.redirect('/partner');
+      } else {
+        req.session.mdpPartnerIsFalse = true;
+        //console.log('Mauvaise identifiant, je ne me connecte pas.');
+        res.redirect('/connexion-partner');
+      }
+
+    }
+  );
+
 });
 
 

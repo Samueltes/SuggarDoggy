@@ -371,3 +371,21 @@ h4 {
 .btn-addproduct {
   margin-top: 20px;
 }
+
+/*****************************/
+/*** Page connexion partner **/
+/*****************************/
+.connexion-partner {
+  margin: 35px 300px 0px 300px;
+
+}
+.btn-full-width {
+  width: 100%;
+}
+#page-connexionPartner #slogan p {
+  margin-bottom: 35px;
+}
+
+#page-connexionPartner .alert {
+    margin: 0px 300px 0px 300px;
+}

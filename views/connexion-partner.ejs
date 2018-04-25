@@ -13,8 +13,8 @@
 
 <body>
 
-  <div id="homeBackground page-connexionPartner">
-    <div class="container">
+  <div id="homeBackground">
+    <div id="page-connexionPartner" class="container">
       <div class="row">
         <div class="col-12" id="homecontent">
 
@@ -23,18 +23,30 @@
               <img src="images/suggar-doggy-logo.png" class="logo">
               <h1>SUGGAR DOGGY</h1>
             </div>
+          </div>
 
           <div id="slogan">
-            <h2>Consommez ethique et malin !</h2>
-            <p>Luttez contre le gaspillage et profitez de patisseries artisanales moins cheres !</p>
+            <h2>Connectez-vous</h2>
+            <p>Dans votre espace magasin, pour vendre vous produit en ligne.
+            </br>Merci d'utiliser les identifiants que nous vous avons transmis.</p>
+
+            <% if(mdpPartnerIsFalse === true){ %>
+              <div class="alert alert-secondary" role="alert">
+                Le mail ou/et le mot de passe que vous avez saisi sont incorrects. <br>
+                Réessayez avec des identifiants valides.
+              </div>
+            <% } %>
 
             <form class="connexion-partner" action="/connexionForPartner" method="POST">
-                <input type="text" class="form-control" name="email" placeholder="votreemail@gmail.com">
-                <input type="text" class="form-control" name="mdp" placeholder="••••••••••">
-                <button class="btn btn-SuggarDoggy">Se connecter</button>
+                <input type="text" class="form-control bs-pd-col-form" name="email" placeholder="votreemail@gmail.com">
+                <input type="password" class="form-control bs-pd-col-form" name="mdp" placeholder="••••••••••">
+                <button class="btn btn-SuggarDoggy btn-full-width">Se connecter</button>
             </form>
 
           </div>
+
+
+          <div></div>
 
         </div>
       </div>

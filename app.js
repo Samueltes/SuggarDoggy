@@ -19,6 +19,18 @@ var app = express();
  		})
 	);
 
+
+// lignes ajoutées
+
+const fileUpload = require('express-fileupload');
+
+
+app.use(fileUpload());
+
+
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

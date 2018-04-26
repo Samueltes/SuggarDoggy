@@ -27,14 +27,14 @@
 
               <div class="col-8">
                   <h2><%= infosShop[0].raisonSociale %></h2>
-                  <div class="specialite-shop"><%= infosShop[0].specialite %> • <%= infosShop[0].ville+' '+infosShop[0].cp %></div>
+                  <div class="specialite-shop"><%=infosShop[0].specialite %> • <%= infosShop[0].ville+' '+infosShop[0].cp %></div>
                   <div class="description-shop">
                     <%= infosShop[0].descriptif %>
                   </div>
               </div>
 
               <div class="offset-1  col-3">
-                <img class="pro-img" src="images/homeBackground.jpg" alt="test">
+                <img class="pro-img" src="images/<%=infosShop[0].image %>" alt="test">
               </div>
             </div>
           </div>

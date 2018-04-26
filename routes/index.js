@@ -3,6 +3,11 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var stripe = require('stripe')('sk_test_fnkzrCVoI3J5ICXoOud11G2H');
 
+
+
+
+
+
 /***************************************/
 /******* Partie Basse de donnée ********/
 /***************************************/
@@ -98,14 +103,33 @@ router.get('/', function(req, res, next)
 /*page repertoire*/
 router.post('/repertoire', function(req, res, next)
 {
-      shopsModel.find(
-      { specialite: req.body.specialite, ville: req.body.ville },
-           function (error, shops)
-           {
-               res.render('repertoire', { shops });
-           }
-      )
+      if ( req.body.specialite == "Toutes" || req.body.specialite == "Quoi donc ?" )
+      {
+
+          shopsModel.find(
+          { ville: req.body.ville },
+               function (error, shops)
+               {
+                   res.render('repertoire', { shops });
+               }
+          )
+
+      }
+      else
+      {
+          shopsModel.find(
+          { specialite: req.body.specialite, ville: req.body.ville },
+               function (error, shops)
+               {
+                   res.render('repertoire', { shops });
+               }
+          )
+
+      }
+
 });
+
+
 
 
 router.post('/livraison', function(req, res, next)
@@ -353,8 +377,8 @@ router.get('/confirmation', function(req, res, next)
 router.get('/partner', function(req, res, next)
 {
       shopsModel.find(
-      { _id: req.session.idShopForPartner },
-
+   // { _id: req.session.idShopForPartner },
+      { _id: "5ae0b7373220b7365cfd103d" },
         function (error, shop)
         {
               produitsModel.find(
@@ -389,17 +413,52 @@ router.post('/addProduct', function(req, res, next){
 });
 
 
-router.post('/updateShop', function(req, res, next)
+
+
+router.post('/updateShop', function(req, res)
 {
-  //console.log("UPDATE !!!!!!!!!!!!!");
-  //console.log("SHOPID: " + req.body.shopid);
+
+//
+// console.log("UPDATE !!!!!!!!!!!!!");
+// console.log("SHOPID: " + req.body.shopid);
+// console.log("TYPE DE UPLOAD: " + req.files.shopimage.mimetype);
+//
+  if(req.files.shopimage === undefined)
+  {
+      var nomfichierimage='imagepardefaut.png';
+  }
+  else
+  {
+
+      if ( req.files.shopimage.mimetype.indexOf(".png"))
+      {
+          var nomfichierimage='im' + req.body.shopid + '.png';
+      }
+      else
+      {
+          if ( req.files.shopimage.mimetype.indexOf(".jpg"))
+          {
+              var nomfichierimage='im' + req.body.shopid + '.jpg';
+          }
+          else
+          {
+              if ( req.files.shopimage.mimetype.indexOf(".gif"))
+              {
+                  var nomfichierimage='im' + req.body.shopid + '.gif';
+              }
+          }
+      }
+
+  }
+
+
   shopsModel.find(
       { _id:req.body.shopid },
       function (err, shop1)
       {
-        //console.log("SHOP: " + shop1);
+
              shopsModel.update(
-             {    _id:req.body.shopid  },
+             {    _id:req.body.shopid },
              {
                   siret: req.body.shopsiret,
                   raisonSociale: req.body.shopraisonSociale,
@@ -410,17 +469,100 @@ router.post('/updateShop', function(req, res, next)
                   email: shop1[0].email,
                   password: shop1[0].password,
                   tel: req.body.shoptel,
-                  image: req.body.shopimage,
+                  image: nomfichierimage,
                   descriptif: req.body.shopdescriptif
              },
              function (err, raw)
              {
-               res.redirect('/partner');
+
+                  shopsModel.find(
+                  { _id:req.body.shopid },
+                  function (err, shop)
+                  {
+
+                        produitsModel.find(
+                        { shopsId: shop[0]._id },
+                            function (error, productList)
+                            {
+                                    if ( req.files && (req.files.shopimage !== undefined) )
+                                    {
+
+                                        // The name of the input field is used to retrieve the uploaded file
+                                        let sampleFile = req.files.shopimage;
+
+                                        // Use the mv() method to place the file somewhere on your server
+                                        sampleFile.mv("C:/Users/pierr/lacapsule/sugar/SuggarDoggy/SuggarDoggy/public/images/" + nomfichierimage , function(err)
+                                        {
+                                            if (err)
+                                            {
+                                               return res.status(500).send(err);
+                                            }
+
+                                            res.render('partner', { shop, productList });
+                                        });
+
+
+                                    }
+                                    else
+                                    {
+                                        res.render('partner', { shop, productList });
+                                    }
+
+
+                            }
+                        );
+
+
+                  });
              });
+
+
       }
+
   );
+
+
 });
 
+
+
+
+
+
+//
+//
+// router.post('/updateShop', function(req, res, next)
+// {
+//   //console.log("UPDATE !!!!!!!!!!!!!");
+//   //console.log("SHOPID: " + req.body.shopid);
+//   shopsModel.find(
+//       { _id:req.body.shopid },
+//       function (err, shop1)
+//       {
+//         //console.log("SHOP: " + shop1);
+//              shopsModel.update(
+//              {    _id:req.body.shopid  },
+//              {
+//                   siret: req.body.shopsiret,
+//                   raisonSociale: req.body.shopraisonSociale,
+//                   specialite: req.body.shopspecialite,
+//                   adresse: req.body.shopadresse,
+//                   ville: req.body.shopville,
+//                   cp: req.body.shopcp,
+//                   email: shop1[0].email,
+//                   password: shop1[0].password,
+//                   tel: req.body.shoptel,
+//                   image: req.body.shopimage,
+//                   descriptif: req.body.shopdescriptif
+//              },
+//              function (err, raw)
+//              {
+//                res.redirect('/partner');
+//              });
+//       }
+//   );
+// });
+//
 
 router.get('/deleteProduct', function(req, res, next)
 {
@@ -439,7 +581,8 @@ router.post('/deconnexionPartner', function(req, res, next){
 
 
 /* page connexion de partenaire */
-router.get('/connexion-partner', function(req, res, next){
+router.get('/connexion-partner', function(req, res, next)
+{
 
   /* Le shop n'a pas besion de se reconnecter si il ne s'est pas déconnecter avant */
   if( req.session.idShopForPartner===undefined ) {

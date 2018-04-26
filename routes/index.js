@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var stripe = require('stripe')('sk_test_fnkzrCVoI3J5ICXoOud11G2H');
+var request = require('request');
 
 /***************************************/
 /******* Partie Basse de donnée ********/
@@ -251,6 +252,8 @@ router.get('/validation-commande', function(req, res, next)
 });
 
 
+
+
 /* page basket */
 router.get('/basket', function(req, res, next)
 {
@@ -265,12 +268,13 @@ router.get('/basket', function(req, res, next)
 });
 
 
-router.post('/checkout',function(req, res, next)
-{
+router.post('/checkout',function(req, res, next){
 
-  //Recupération du total de la commande (*100) pour le payement stripe
-  var aPayer = req.session.deliveryAndTotalOrder.totalCmdDelivery*100;
+  var aPayer = req.session.deliveryAndTotalOrder.totalCmdDelivery*100; //Recupération du total de la commande (*100) pour le payement stripe
 
+  /*
+      Partie Update de la commande (avec ajout du prix, livrason et état de la commande).
+  */
   commandesModel.update(
   { _id: req.session.idNewCmd },
    {
@@ -280,24 +284,79 @@ router.post('/checkout',function(req, res, next)
    },
    function(error, row ){
 
-     // Voir les changements dans un console.log
+     /*
+       Ajout des produits commandé dans la collection Produitscommandes
+     */
+     for( let i=0; i < req.session.basketByShop.length; i++){
+
+       var newCommProduit = new commProduitsModel ({
+         produitsNom: req.session.basketByShop[i].nom,
+         produitsPrix: req.session.basketByShop[i].prix,
+         nombre: 1,
+         commandeId: req.session.idNewCmd
+       });
+       newCommProduit.save(
+         function(error, commProduit){
+           //console.log(commProduit)
+         }
+       )
+     };
+
+     /*
+        Partie Envoie du mail à la boulangerie pour qu'il prépare la commande.
+        Etape 1 : Récupération du nom du client (dans la collection commande).
+     */
      commandesModel.find(
        { _id: req.session.idNewCmd },
        function(err, commande)
        {
-         console.log('Commande aprés modification : ' + commande);
-       }
-     );
-     //**
-   }
-  );
+         req.session.mailInfosClient = commande[0].clientsNom+' '+commande[0].clientsPrenom;
 
-  //console.log('ID trouver ou non : '+req.session.idNewCmd);
+
+         /* Etape 2 : Récupération de l'email du boulanger selectionné */
+         shopsModel.find(
+           { _id: req.session.idShopSelect },
+           function(err, shops)
+           {
+             req.session.mailInfosEmailShop = shops[0].email;
+
+            /* Etape 3 : récupérer les produits de la commande */
+            commProduitsModel.find(
+              { commandeId: req.session.idNewCmd },
+              function(err, commProduit){
+
+                req.session.mailInfosProduits = '';
+                for(let i=0; i < commProduit.length; i++){
+                  req.session.mailInfosProduits = req.session.mailInfosProduits + ' <br><br> ' + commProduit[i].produitsNom
+                }
+
+                /* Etape 4 : Envoie du récap. de la commande au Boulanger pour qu'il l'a prépare (via mailjet/zapier) */
+                request.post(
+                  {
+                    headers: {'content-type' : 'application/json'},
+                    url:     'https://hooks.zapier.com/hooks/catch/3213099/fkyte6/',
+                    json: { email: req.session.mailInfosEmailShop, nomClient: req.session.mailInfosClient, produitsCommande: req.session.mailInfosProduits }
+                 },
+                 function(error, response, body){
+                 console.log(body);
+               });
+
+            });
+
+          });
+       });
+       /*
+           FIN partie envoie de mail
+       */
+});
+
+
+/*
+  Si l'adresse de livraison n'a pas était remplie. on reste sur la page basket sinon on peut payer.
+  req.session.idNewCmd est créer lorque l'adresse de livraion et bien remplie (on ne peut pas accés au payement si elle n'existe pas).
+*/
   if (req.session.idNewCmd === undefined){
-
-    console.log('oui');
     res.redirect('/basket');
-
   } else {
 
     //Payement sur stripe
@@ -311,7 +370,7 @@ router.post('/checkout',function(req, res, next)
         customer: customer.id
       });
     }).then(function(charge){
-      console.log('Payement effectué !');
+      //Commande payer redirection sur page confirmation.
       res.redirect('/confirmation');
     }).catch(function(err){
       console.log(err);
@@ -336,7 +395,7 @@ router.get('/confirmation', function(req, res, next)
 
                         function (error, commande)
                         {
-                             console.log("page confirmation, la commande :" + commande);
+                             //console.log("page confirmation, la commande :" + commande);
                              res.render('confirmation', { shop, commande, panierClient: req.session.basketByShop , deliveryAndTotalOrder : req.session.deliveryAndTotalOrder });
                         }
                       );
@@ -436,6 +495,7 @@ router.post('/deconnexionPartner', function(req, res, next){
   req.session.idShopForPartner = undefined;
   res.render('index');
 });
+
 
 
 /* page connexion de partenaire */

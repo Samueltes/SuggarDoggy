@@ -76,6 +76,7 @@ background-color: #D66953;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 20px 0;
 }
 /*partie logo*/
 #header-home {
@@ -128,6 +129,7 @@ color: #FFFFFF;
 /*Barre de recherche*/
 .searchBar-home {
   display: flex;
+  margin: 0 20%;
 }
 .searchBar-home .form-control {
   border-radius: 0px;
@@ -149,7 +151,7 @@ color: #FFFFFF;
 
 .searchBar-home .btn{
   border-top-left-radius: 0px;
-  border-bottom-left-radius: 5px;
+  border-bottom-left-radius: 0px;
 }
 
 /*partie login pour partenaire*/

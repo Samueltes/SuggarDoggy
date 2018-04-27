@@ -69,7 +69,7 @@ var commProduitsSchema = mongoose.Schema(
     produitsNom: String,
     produitsPrix: Number,
     nombre: Number,
-    commandeId: String
+    commandeId: String,
 
 });
 var commProduitsModel = mongoose.model('commandesproduits', commProduitsSchema);
@@ -213,7 +213,9 @@ router.get('/shop', function(req, res, next)
               req.session.basketByShop.push({
                 nom : req.session.commandeProduits[i].nom,
                 nombre : req.session.commandeProduits[i].nombre,
-                prix : req.session.commandeProduits[i].prix
+                prix : req.session.commandeProduits[i].prix,
+                idProduct: req.session.commandeProduits[i]._id,
+                idShop : req.session.commandeProduits[i].shopsId
               })
 
               //Calcule du total & de la livraison
@@ -293,9 +295,6 @@ router.get('/basket', function(req, res, next)
 
 
 router.post('/checkout',function(req, res, next){
-
-  var aPayer = req.session.deliveryAndTotalOrder.totalCmdDelivery*100; //Recupération du total de la commande (*100) pour le payement stripe
-
   /*
       Partie Update de la commande (avec ajout du prix, livrason et état de la commande).
   */
@@ -311,23 +310,59 @@ router.post('/checkout',function(req, res, next){
      /*
        Ajout des produits commandé dans la collection Produitscommandes
      */
+
      for( let i=0; i < req.session.basketByShop.length; i++){
 
        var newCommProduit = new commProduitsModel ({
          produitsNom: req.session.basketByShop[i].nom,
          produitsPrix: req.session.basketByShop[i].prix,
          nombre: 1,
-         commandeId: req.session.idNewCmd
+         commandeId: req.session.idNewCmd,
        });
        newCommProduit.save(
          function(error, commProduit){
-           //console.log(commProduit)
-         }
-       )
-     };
+           console.log(commProduit);
+
+           /*
+              GESTION DES STOCKS
+           */
+        /*  produitsModel.find(
+             {
+               nom: commProduit.produitsNom,
+               shopsId: req.session.idShopSelect
+             },
+             function(err, produit){
+
+
+               console.log(produit.length);
+               req.session.test = produit[0].nombre - 1;
+               console.log(req.session.test);
+
+               produitsModel.update(
+                 {
+                   nom: commProduit.produitsNom,
+                   shopsId: req.session.idShopSelect
+                 },
+                 { nombre: req.session.test },
+                 function(error, row ){
+
+                   produitsModel.find(
+                     {
+                       nom: commProduit.produitsNom,
+                       shopsId: req.session.idShopSelect
+                     },
+                     function(err, produit){
+                       console.log('test finale'+produit[0]);
+                     });
+                 });
+          });*/
+
+
+      });
+    }
 
      /*
-        Partie Envoie du mail à la boulangerie pour qu'il prépare la commande.
+        Envoie du mail à la boulangerie pour qu'il prépare la commande.
         Etape 1 : Récupération du nom du client (dans la collection commande).
      */
      commandesModel.find(
@@ -372,13 +407,15 @@ router.post('/checkout',function(req, res, next){
        /*
            FIN partie envoie de mail
        */
-});
+     });
 
+  /*
+    PAYEMENT VIA STRIPE
+    Si l'adresse de livraison n'a pas était remplie. on reste sur la page basket sinon on peut payer.
+    req.session.idNewCmd est créer lorque l'adresse de livraion et bien remplie (on ne peut pas accés au payement si elle n'existe pas).
+  */
+  var aPayer = req.session.deliveryAndTotalOrder.totalCmdDelivery*100; //Recupération du total de la commande (*100) pour le payement stripe
 
-/*
-  Si l'adresse de livraison n'a pas était remplie. on reste sur la page basket sinon on peut payer.
-  req.session.idNewCmd est créer lorque l'adresse de livraion et bien remplie (on ne peut pas accés au payement si elle n'existe pas).
-*/
   if (req.session.idNewCmd === undefined){
     res.redirect('/basket');
   } else {
@@ -394,7 +431,7 @@ router.post('/checkout',function(req, res, next){
         customer: customer.id
       });
     }).then(function(charge){
-      //Commande payer redirection sur page confirmation.
+      /* Commande payer redirection sur page confirmation. */
       res.redirect('/confirmation');
     }).catch(function(err){
       console.log(err);

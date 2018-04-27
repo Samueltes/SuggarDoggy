@@ -82,14 +82,14 @@
 	          vide = vide + 1;
         }
 
-        if ( !varshopimage )
-        {   if (erreur == "")
-            {   erreur = erreur + "image";    }
-            else
-            {   erreur = erreur + ", image";  }
-
-	          vide = vide + 1;
-        }
+        // if ( !varshopimage )
+        // {   if (erreur == "")
+        //     {   erreur = erreur + "image";    }
+        //     else
+        //     {   erreur = erreur + ", image";  }
+        //
+	      //     vide = vide + 1;
+        // }
 
         if ( !varshopdescriptif )
         {   if (erreur == "")
@@ -307,13 +307,13 @@
                     else
                     {
 
-                      if ( parseFloat(varprodprix) != NaN )
-                      {
-                        erreur = "Un prix ne doit être composé que de chiffres";
-                        alert ( erreur );
-                      }
-                      else
-                      {
+                      //if ( parseFloat(varprodprix) != NaN )
+                      //{
+                        //erreur = "Un prix ne doit être composé que de chiffres";
+                        //alert ( erreur );
+                      //}
+                      //else
+                      //{
 
                         if ( varprodprix > 999 )
                         {
@@ -322,11 +322,11 @@
                         }
                         else
                         {
-                          document.getElementById("formshop").submit();
+                          document.getElementById("formprod").submit();
 
                         }
 
-                      }
+                      //}
 
 
                   }

@@ -2,7 +2,8 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title>Shop</title>
+    <title>Suggar Doggy - Boutique en ligne</title>
+    <link href="images/suggar-doggy-logo-min.png" rel="shortcut icon" >
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
@@ -49,7 +50,7 @@
                     <div class="market-list">
                       <div class="product-items alert alert-sd">
                         <div class="row">
-                          <div class="col-9 product-name"><%= productList[i].nombre %> lots de <%= productList[i].nom %></div>
+                          <div class="col-9 product-name"><%= productList[i].nom %></div>
                           <div class="col-2 product-price"><%= productList[i].prix.toFixed(2) %> €</div>
                           <div class="col-1 add-product">
                             <a href="/add-shop-product?id=<%=productList[i]._id%>"><i class="fas fa-plus-circle"></i></a>
@@ -74,7 +75,7 @@
                           total = total + panierClient[i].prix;
                       %>
                       <div class="row min-basket-list">
-                        <div class="col-7"><%= panierClient[i].nombre %> x <%= panierClient[i].nom %></div>
+                        <div class="col-7"><%= panierClient[i].nom %></div>
                         <div class="col-3"><%= panierClient[i].prix %> €</div>
                         <div class="col-2"><a href="/delete-shop-product?position=<%= i %>"><i class="fas fa-minus-circle"></i></a></div>
                       </div>

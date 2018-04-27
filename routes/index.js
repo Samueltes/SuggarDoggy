@@ -436,8 +436,8 @@ router.get('/confirmation', function(req, res, next)
 router.get('/partner', function(req, res, next)
 {
       shopsModel.find(
-   // { _id: req.session.idShopForPartner },
-      { _id: "5ae0b7373220b7365cfd103d" },
+      { _id: req.session.idShopForPartner },
+  //  { _id: "5ae0b7373220b7365cfd103d" },
         function (error, shop)
         {
               produitsModel.find(

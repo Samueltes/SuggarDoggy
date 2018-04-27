@@ -86,7 +86,7 @@
 
 
                       <h4>Siret :</h4>
-                      <p>15263589652412</p>
+                      <p><%=shop[0].siret%></p>
 
 
                       <h4>Téléphone :</h4>
@@ -123,7 +123,7 @@
                  <span aria-hidden="true">&times;</span>
              </button>
          </div>
-         <form action="/updateShop" class="modal-form" method="post" enctype="multipart/form-data">
+         <form action="/updateShop" class="modal-form" method="post" enctype="multipart/form-data" id="formshop">
          <div class="modal-body">
 
                <div class="row bs-pd-row-form">
@@ -145,7 +145,7 @@
 
                    <div class="offset-1 col-10 bs-pd-col-form">
                        <input type="text" class="form-control" name="shopsiret" id="shopsiret" placeholder="Votre siret" value="<%=shop[0].siret%>">
-                       <input type="hidden"                    name="shopid"                              value="<%=shop[0]._id%>">
+                       <input type="hidden"                    name="shopid"                                             value="<%=shop[0]._id%>">
                    </div>
 
                    <div class="offset-1 col-10 bs-pd-col-form">
@@ -202,7 +202,7 @@
                  <span aria-hidden="true">&times;</span>
              </button>
          </div>
-         <form action="/addProduct" class="modal-form" method="post">
+         <form action="/addProduct" class="modal-form" method="post" id="formprod">
          <div class="modal-body">
 
                <div class="row bs-pd-row-form">
@@ -212,25 +212,25 @@
                  </div>
 
                    <div class="offset-1 col-3 bs-pd-col-form">
-                       <input type="text" class="form-control" name="prodquantite" placeholder="Quantité">
+                       <input type="text" class="form-control" name="prodquantite" id="prodquantite" placeholder="Quantité">
                        <input type="hidden"                    name="prodshopsId"  value="<%=shop[0]._id%>">
                    </div>
                    <div class="col-7 bs-pd-col-form">
-                       <input type="text" class="form-control" name="prodnom" placeholder="Nom du produit">
+                       <input type="text" class="form-control" name="prodnom" id="prodnom" placeholder="Nom du produit">
                    </div>
 
                    <div class="offset-1 col-10 bs-pd-col-form">
-                       <input type="text" class="form-control" name="prodallergenes" placeholder="Allergène1, allergène2...">
+                       <input type="text" class="form-control" name="prodallergenes" id="prodallergenes" placeholder="Allergène1, allergène2...">
                    </div>
                    <div class="offset-1 col-3 bs-pd-col-form">
-                       <input type="text" class="form-control" name="prodprix" placeholder="Prix en €">
+                       <input type="text" class="form-control" name="prodprix" id="prodprix" placeholder="Prix en €">
                    </div>
 
                      <div class="offset-1 col-10 bs-pd-col-form">
                          <h4>Saisissez le nombre de lots :</h4>
                      </div>
                       <div class="offset-1 col-10 bs-pd-col-form">
-                         <input type="text" class="form-control" name="prodnombre" placeholder="Nombre de lots">
+                         <input type="text" class="form-control" name="prodnombre" id="prodnombre" placeholder="Nombre de lots">
                      </div>
 
                    <!--<div class="offset-1 col-10 bs-pd-col-form">
@@ -239,7 +239,7 @@
                </div>
          </div>
          <div class="modal-footer">
-             <button class="btn btn-SuggarDoggy">Ajouter un produit</button>
+             <button class="btn btn-SuggarDoggy" id="btn-prodvalide">Ajouter un produit</button>
          </div>
          </form>
 

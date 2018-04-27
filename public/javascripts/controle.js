@@ -1,10 +1,3 @@
-// $("#btn_rz").click( function()
-//    {
-//         //event.preventDefault();
-// 	      document.getElementById(btn-shopvalide).val("");
-// 	      $("#input2")     .val("");
-//         $("#textarea1")  .val("");
-//    });
 
 
    document.getElementById("btn-shopvalide").addEventListener('click', function(e)
@@ -15,7 +8,17 @@
 	      vide  = 0;
 
 
-        if ( document.getElementById("shopspecialite").value.length == 0 )
+        var varshopspecialite =    document.getElementById("shopspecialite").value;
+        var varshopraisonSociale = document.getElementById("shopraisonSociale").value;
+        var varshopsiret =         document.getElementById("shopsiret").value;
+        var varshopadresse =       document.getElementById("shopadresse").value;
+        var varshopcp =            document.getElementById("shopcp").value;
+        var varshopville =         document.getElementById("shopville").value;
+        var varshoptel =           document.getElementById("shoptel").value;
+        var varshopimage =         document.getElementById("shopimage").value;
+        var varshopdescriptif =    document.getElementById("shopdescriptif").value;
+
+        if ( !varshopspecialite )
         {   if (erreur == "")
             {   erreur = erreur + "spécialité";    }
             else
@@ -24,7 +27,7 @@
 	          vide = vide + 1;
         }
 
-        if ( document.getElementById("shopraisonSociale").value.length == 0 )
+        if ( !varshopraisonSociale )
         {   if (erreur == "")
             {   erreur = erreur + "raison sociale";    }
             else
@@ -34,7 +37,7 @@
         }
 
 
-        if ( document.getElementById("shopsiret").value.length == 0 )
+        if ( !varshopsiret )
         {   if (erreur == "")
             {   erreur = erreur + "siret";    }
             else
@@ -43,13 +46,7 @@
 	          vide = vide + 1;
         }
 
-
-        // if ( document.getElementById("shopraisonSociale").value.length == 0 )
-        // {   erreur = erreur + "raison sociale";
-	      //     vide = vide + 1;
-        // }
-
-        if ( document.getElementById("shopadresse").value.length == 0 )
+        if ( !varshopadresse )
         {   if (erreur == "")
             {   erreur = erreur + "adresse";    }
             else
@@ -58,7 +55,7 @@
 	          vide = vide + 1;
         }
 
-        if ( document.getElementById("shopcp").value.length == 0 )
+        if ( !varshopcp )
         {   if (erreur == "")
             {   erreur = erreur + "code postal";    }
             else
@@ -67,7 +64,7 @@
 	          vide = vide + 1;
         }
 
-        if ( document.getElementById("shopville").value.length == 0 )
+        if ( !varshopville )
         {   if (erreur == "")
             {   erreur = erreur + "ville";    }
             else
@@ -76,7 +73,7 @@
 	          vide = vide + 1;
         }
 
-        if ( document.getElementById("shoptel").value.length == 0 )
+        if ( !varshoptel )
         {   if (erreur == "")
             {   erreur = erreur + "téléphone";    }
             else
@@ -85,7 +82,7 @@
 	          vide = vide + 1;
         }
 
-        if ( document.getElementById("shopimage").value.length == 0 )
+        if ( !varshopimage )
         {   if (erreur == "")
             {   erreur = erreur + "image";    }
             else
@@ -94,7 +91,7 @@
 	          vide = vide + 1;
         }
 
-        if ( document.getElementById("shopdescriptif").value.length == 0 )
+        if ( !varshopdescriptif )
         {   if (erreur == "")
             {   erreur = erreur + "descriptif";    }
             else
@@ -104,53 +101,242 @@
         }
 
 
-
-        // if ( $("#input2").value.length == 0 )
-        // {   if ( erreur == "" )
-        //     {   erreur = erreur + "e-mail";    }
-        //     else
-        //     {   erreur = erreur + ", e-mail";  }
-        //
-        //     vide = vide + 1;
-        // }
-
-        //
-        // if ( $("#textarea1").value.length == 0 )
-        // {   if ( erreur == "" )
-        //     {   erreur = erreur + "message";    }
-        //     else
-        //     {   erreur = erreur + ", message";  }
-        //
-        //     vide = vide + 1;
-        // }
-        //
-
         if ( vide > 0 )
         {
-            if ( vide > 1 )
+          if ( vide > 2 )
+          {
+            alert ( "Il y a des champs non remplis." );
+          }
+          else
+          {
+
+            if ( vide == 2 )
             {
-                 alert ( "Champs non remplis : " + erreur );
+              alert ( "Champs non remplis : " + erreur );
             }
             else
             {
-                 alert ( "Champ non rempli : " + erreur );
+              alert ( "Champ non rempli : " + erreur );
             }
+
+          }
 
         }
         else
         {
 
-            // lemail = $("#input2").val();
-            // if( !lemail.match(/[a-z0-9_\-\.]+@[a-z0-9_\-\.]+\.[a-z]+/i) )
-            // {
-            //     alert ("Adresse e-mail non valide !");
-            // }
-            // else
-            // {
-            //     $("#lemessage").submit();
-            // }
+          if ( parseInt(varshopsiret) != varshopsiret )
+          {
+            erreur = "Un siret ne doit contenir que des chiffres";
+            alert ( erreur );
+          }
+          else
+          {
+            if ( varshopsiret.length != 14 )
+            {
+              erreur = "Un siret doit contenir 14 chiffres";
+              alert ( erreur );
+            }
+            else
+            {
+              if ( parseInt(varshopcp) != varshopcp )
+              {
+                erreur = "Un code postal ne doit contenir que des chiffres";
+                alert ( erreur );
+              }
+              else
+              {
+                if ( varshopcp.length != 5 )
+                {
+                  erreur = "Un code postal doit contenir 5 chiffres";
+                  alert ( erreur );
+                }
+                else
+                {
+                  if ( parseInt(varshoptel) != varshoptel )
+                  {
+                    erreur = "Un numéro de téléphone ne doit contenir que des chiffres";
+                    alert ( erreur );
+
+                  }
+                  else
+                  {
+                    if ( varshoptel.length != 10 )
+                    {
+                      erreur = "Un numéro de téléphone doit contenir 10 chiffres";
+                      alert ( erreur );
+                    }
+                    else
+                    {
+                      document.getElementById("formshop").submit();
+
+                    }
+                  }
+
+                }
+              }
+
+            }
+          }
 
         }
 
 
    });
+
+
+
+
+
+
+
+   document.getElementById("btn-prodvalide").addEventListener('click', function(e)
+   {
+        e.preventDefault();
+
+	      erreur = "";
+	      vide  = 0;
+
+        var varprodnom =              document.getElementById("prodnom").value;
+        var varprodquantite =         document.getElementById("prodquantite").value;
+        var varprodallergenes =       document.getElementById("prodallergenes").value;
+        var varprodprix =             document.getElementById("prodprix").value;
+        varprodprix = varprodprix.replace( "," , "." );
+        var varprodnombre =           document.getElementById("prodnombre").value;
+
+        if ( !varprodnom )
+        {   if (erreur == "")
+            {   erreur = erreur + "nom";    }
+            else
+            {   erreur = erreur + ", nom";  }
+
+	          vide = vide + 1;
+        }
+
+        if ( !varprodquantite )
+        {   if (erreur == "")
+            {   erreur = erreur + "quantité";    }
+            else
+            {   erreur = erreur + ", quantité";  }
+
+	          vide = vide + 1;
+        }
+
+        if ( !varprodallergenes )
+        {   if (erreur == "")
+            {   erreur = erreur + "allergènes";    }
+            else
+            {   erreur = erreur + ", allergènes";  }
+
+	          vide = vide + 1;
+        }
+
+        if ( !varprodprix )
+        {   if (erreur == "")
+            {   erreur = erreur + "prix";    }
+            else
+            {   erreur = erreur + ", prix";  }
+
+	          vide = vide + 1;
+        }
+
+        if ( !varprodnombre )
+        {   if (erreur == "")
+            {   erreur = erreur + "nombre";    }
+            else
+            {   erreur = erreur + ", nombre";  }
+
+	          vide = vide + 1;
+        }
+
+
+
+        if ( vide > 0 )
+        {
+          if ( vide > 2 )
+          {
+            alert ( "Il y a des champs non remplis." );
+          }
+          else
+          {
+
+            if ( vide == 2 )
+            {
+              alert ( "Champs non remplis : " + erreur );
+            }
+            else
+            {
+              alert ( "Champ non rempli : " + erreur );
+            }
+
+          }
+
+        }
+        else
+        {
+
+          if ( parseInt(varprodquantite) != varprodquantite )
+          {
+            erreur = "Une quantité ne doit contenir que des chiffres";
+            alert ( erreur );
+          }
+          else
+          {
+            if ( varprodquantite > 999 )
+            {
+              erreur = "Une quantité ne doit pas être supérieur à 999";
+              alert ( erreur );
+            }
+            else
+            {
+
+
+                  if ( parseInt(varprodnombre) != varprodnombre )
+                  {
+                    erreur = "Un nombre de lots ne doit contenir que des chiffres";
+                    alert ( erreur );
+
+                  }
+                  else
+                  {
+                    if ( varprodnombre > 999 )
+                    {
+                      erreur = "Un nombre de lots ne doit pas être supérieur à 999";
+                      alert ( erreur );
+                    }
+                    else
+                    {
+
+                      if ( parseFloat(varprodprix) != NaN )
+                      {
+                        erreur = "Un prix ne doit être composé que de chiffres";
+                        alert ( erreur );
+                      }
+                      else
+                      {
+
+                        if ( varprodprix > 999 )
+                        {
+                          erreur = "Un prix ne doit pas être supérieur à 999";
+                          alert ( erreur );
+                        }
+                        else
+                        {
+                          document.getElementById("formshop").submit();
+
+                        }
+
+                      }
+
+
+                  }
+
+
+
+            }
+          }
+
+        }
+
+
+   }});

@@ -58,7 +58,7 @@ background-color: #D66953;
   height: 100vh;
   background-position: center center;
   background-size: cover;
-  background-image: url(/images/homebackground.jpg);
+  background-image: url(/images/homebg.jpg);
   z-index: 1;
 }
 #homeBackground:after {
